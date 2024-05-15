@@ -5,13 +5,19 @@ package javamon;
 
 import javax.swing.JFrame;
 
+import javamon.frontend.HomeGUI;
+
 public class App {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Javamon");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Javamon");
-        frame.setSize(800, 600);
-        frame.setResizable(false);
-        frame.setVisible(true);
+        JFrame frame = new JFrame("Javamon"); // window title
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close the window
+        frame.setResizable(false); // prevent resizing
+        frame.setSize(800, 600); // width, height
+        frame.setLocationRelativeTo(null); // center the window
+        
+        HomeGUI homeGUI = new HomeGUI(frame); // create a new HomeGUI object
+        homeGUI.setPanel("welcome"); // set the panel to "welcome"
+
+        frame.setVisible(true); // show the window
     }
 }
