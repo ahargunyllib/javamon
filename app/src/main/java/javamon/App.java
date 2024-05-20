@@ -5,6 +5,7 @@ package javamon;
 
 import javax.swing.JFrame;
 
+import javamon.backend.Javamon;
 import javamon.frontend.HomeGUI;
 
 public class App {
@@ -14,6 +15,8 @@ public class App {
         frame.setResizable(false); // prevent resizing
         frame.setSize(800, 600); // width, height
         frame.setLocationRelativeTo(null); // center the window
+
+        Javamon.registerMonsters(); // register monsters
         
         HomeGUI homeGUI = new HomeGUI(frame); // create a new HomeGUI object
         homeGUI.setPanel("welcome"); // set the panel to "welcome"

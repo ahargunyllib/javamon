@@ -2,10 +2,12 @@ package javamon.frontend.welcome;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import javamon.backend.Javamon;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 
@@ -28,6 +30,12 @@ public class WelcomePanel extends Panel {
         newGameBtn.setMaximumSize(new Dimension(200, 50));
         newGameBtn.setBackground(new Color(226, 226, 226));
         newGameBtn.setForeground(new Color(9, 9, 11));
+        newGameBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                homeGUI.setPanel("newGame");
+            }
+        });
 
         JButton loadGameBtn = new JButton("Load Game");
         loadGameBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
@@ -42,6 +50,52 @@ public class WelcomePanel extends Panel {
         saveGameBtn.setMaximumSize(new Dimension(200, 50));
         saveGameBtn.setBackground(new Color(226, 226, 226));
         saveGameBtn.setForeground(new Color(9, 9, 11));
+        saveGameBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Javamon.getPLAYER() == null) {
+                    JOptionPane.showMessageDialog(homeGUI.getFrame(), "No game to save!", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                JDialog dialog = new JDialog(homeGUI.getFrame(), "Save Game", true);
+
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setResizable(false);
+                dialog.getContentPane().setBackground(new Color(9, 9, 11));
+                dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+
+                JLabel label = new JLabel("Game saved successfully!");
+                label.setAlignmentX(CENTER_ALIGNMENT);
+                label.setForeground(new Color(226, 226, 226));
+
+                JButton okBtn = new JButton("OK");
+                okBtn.setAlignmentX(CENTER_ALIGNMENT);
+                okBtn.setMaximumSize(new Dimension(100, 50));
+                okBtn.setBackground(new Color(226, 226, 226));
+                okBtn.setForeground(new Color(9, 9, 11));
+                okBtn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Javamon.saveGame(String.format("saves\\%s.txt", (new Date().getTime())));
+                        dialog.dispose();
+                    }
+                });
+
+                setBorder(new EmptyBorder(16, 16, 16, 16));
+                dialog.add(Box.createVerticalGlue());
+                dialog.add(label);
+                dialog.add(Box.createRigidArea(new Dimension(0, 16)));
+                dialog.add(okBtn);
+                dialog.add(Box.createVerticalGlue());
+
+                dialog.setSize(300, 200);
+                dialog.setLocationRelativeTo(homeGUI.getFrame());
+                dialog.setVisible(true);
+            }
+
+        });
 
         JButton exitBtn = new JButton("Exit");
         exitBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
@@ -86,7 +140,7 @@ public class WelcomePanel extends Panel {
                         dialog.dispose();
                     }
                 });
-            
+
                 JPanel buttoPanel = new JPanel();
                 buttoPanel.setBackground(new Color(9, 9, 11));
                 buttoPanel.setLayout(new BoxLayout(buttoPanel, BoxLayout.X_AXIS));
