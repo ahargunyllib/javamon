@@ -19,14 +19,9 @@ public class HomeGUI {
         
         panel.setLayout(cardLayout);
 
-        // Init
         Panel welcomePanel = new WelcomePanel(this);
         panelMap.put("welcome", welcomePanel);
         panel.add(welcomePanel, "welcome");
-
-        Panel newGamePanel = new NewGamePanel(this);
-        panelMap.put("newGame", newGamePanel);
-        panel.add(newGamePanel, "newGame");
 
         frame.setContentPane(panel);
     }

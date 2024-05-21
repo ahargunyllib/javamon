@@ -10,4 +10,12 @@ public abstract class Place {
     }
 
     public abstract void exit();
+
+    public Monster[] getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(Monster[] monsters) {
+        this.monsters = monsters;
+    }
 }
