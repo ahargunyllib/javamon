@@ -5,7 +5,9 @@ import javamon.backend.entity.Monster;
 import javamon.backend.entity.Player;
 import javamon.backend.entity.items.Item;
 import javamon.backend.exceptions.CannotEvolveException;
+import javamon.backend.exceptions.CannotHealException;
 import javamon.backend.exceptions.NotEnoughExpException;
+import javamon.backend.exceptions.NotEnoughGoldException;
 
 public class Homebase extends Place {
     private Player player;
@@ -100,18 +102,18 @@ public class Homebase extends Place {
         }
     }
 
-    public void restoreHp(Monster monster) {
+    public void restoreHp(Monster monster) throws CannotHealException, NotEnoughGoldException {
         double currHp = monster.getCurrHp();
         double maxHp = monster.getMaxHp();
 
         if (currHp == maxHp) {
-            // throw cannot restore hp exception
+            throw new CannotHealException("Monster is already at full health");
         } else {
             if (player.getGold() >= 50) {
                 player.setGold(player.getGold() - 50);
                 monster.restoremaxHp();
             } else {
-                // throw not enough gold exception
+                throw new NotEnoughGoldException("Not enough gold to heal monster");
             }
         }
     }
