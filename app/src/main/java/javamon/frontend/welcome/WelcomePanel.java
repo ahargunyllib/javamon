@@ -10,6 +10,10 @@ import javax.swing.border.EmptyBorder;
 import javamon.backend.Javamon;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
+import javamon.frontend.components.Label;
+import javamon.frontend.components.Row;
+import javamon.frontend.styles.Typography;
+import javamon.frontend.components.Button;
 
 public class WelcomePanel extends Panel {
     public WelcomePanel(HomeGUI homeGUI) {
@@ -18,39 +22,23 @@ public class WelcomePanel extends Panel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(9, 9, 11));
 
-        JLabel label = new JLabel("Welcome to Javamon!");
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 36));
-        label.setAlignmentX(CENTER_ALIGNMENT);
-        label.setForeground(new Color(226, 226, 226));
+        Label label = new Label("Welcome to Javamon", Typography.TITLE);
 
-        JButton newGameBtn = new JButton("New Game");
-        newGameBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        newGameBtn.setAlignmentX(CENTER_ALIGNMENT);
-        newGameBtn.setMaximumSize(new Dimension(200, 50));
-        newGameBtn.setBackground(new Color(226, 226, 226));
-        newGameBtn.setForeground(new Color(9, 9, 11));
-        newGameBtn.addActionListener(new ActionListener() {
+        Button newGameBtn = new Button("New Game", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 homeGUI.setPanel("newGame");
             }
         });
 
-        JButton loadGameBtn = new JButton("Load Game");
-        loadGameBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        loadGameBtn.setAlignmentX(CENTER_ALIGNMENT);
-        loadGameBtn.setMaximumSize(new Dimension(200, 50));
-        loadGameBtn.setBackground(new Color(226, 226, 226));
-        loadGameBtn.setForeground(new Color(9, 9, 11));
+        Button loadGameBtn = new Button("Load Game", Typography.BUTTON, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //
+            }
+        });
 
-        JButton saveGameBtn = new JButton("Save Game");
-        saveGameBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        saveGameBtn.setAlignmentX(CENTER_ALIGNMENT);
-        saveGameBtn.setMaximumSize(new Dimension(200, 50));
-        saveGameBtn.setBackground(new Color(226, 226, 226));
-        saveGameBtn.setForeground(new Color(9, 9, 11));
-        saveGameBtn.addActionListener(new ActionListener() {
+        Button saveGameBtn = new Button("Save Game", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Javamon.getPLAYER() == null) {
@@ -66,16 +54,9 @@ public class WelcomePanel extends Panel {
                 dialog.getContentPane().setBackground(new Color(9, 9, 11));
                 dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
 
-                JLabel label = new JLabel("Game saved successfully!");
-                label.setAlignmentX(CENTER_ALIGNMENT);
-                label.setForeground(new Color(226, 226, 226));
+                Label label = new Label("Game saved!", Typography.BODY);
 
-                JButton okBtn = new JButton("OK");
-                okBtn.setAlignmentX(CENTER_ALIGNMENT);
-                okBtn.setMaximumSize(new Dimension(100, 50));
-                okBtn.setBackground(new Color(226, 226, 226));
-                okBtn.setForeground(new Color(9, 9, 11));
-                okBtn.addActionListener(new ActionListener() {
+                Button okBtn = new Button("OK", Typography.BUTTON, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Javamon.saveGame(String.format("saves\\%s.txt", (new Date().getTime())));
@@ -84,6 +65,7 @@ public class WelcomePanel extends Panel {
                 });
 
                 setBorder(new EmptyBorder(16, 16, 16, 16));
+
                 dialog.add(Box.createVerticalGlue());
                 dialog.add(label);
                 dialog.add(Box.createRigidArea(new Dimension(0, 16)));
@@ -97,69 +79,51 @@ public class WelcomePanel extends Panel {
 
         });
 
-        JButton exitBtn = new JButton("Exit");
-        exitBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        exitBtn.setAlignmentX(CENTER_ALIGNMENT);
-        exitBtn.setMaximumSize(new Dimension(200, 50));
-        exitBtn.setBackground(new Color(226, 226, 226));
-        exitBtn.setForeground(new Color(9, 9, 11));
-        exitBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JDialog dialog = new JDialog(homeGUI.getFrame(), "Exit", true);
-
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                dialog.setResizable(false);
-                dialog.getContentPane().setBackground(new Color(9, 9, 11));
-                dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
-
-                JLabel label = new JLabel("Are you sure you want to exit?");
-                label.setAlignmentX(CENTER_ALIGNMENT);
-                label.setForeground(new Color(226, 226, 226));
-
-                JButton yesBtn = new JButton("Yes");
-                yesBtn.setAlignmentX(CENTER_ALIGNMENT);
-                yesBtn.setMaximumSize(new Dimension(100, 50));
-                yesBtn.setBackground(new Color(226, 226, 226));
-                yesBtn.setForeground(new Color(9, 9, 11));
-                yesBtn.addActionListener(new ActionListener() {
+        Button exitBtn = new Button("Exit", Typography.BUTTON,
+                new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        homeGUI.exit();
+                        JDialog dialog = new JDialog(homeGUI.getFrame(), "Exit", true);
+
+                        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                        dialog.setResizable(false);
+                        dialog.getContentPane().setBackground(new Color(9, 9, 11));
+                        dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+
+                        Label label = new Label("Are you sure you want to exit?", Typography.BODY);
+
+                        Button yesBtn = new Button("Yes", Typography.BUTTON, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                homeGUI.exit();
+                            }
+                        });
+
+                        Button noBtn = new Button("No", Typography.BUTTON, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                dialog.dispose();
+                            }
+                        });
+
+                        Row buttonPanel = new Row();
+                        buttonPanel.add(noBtn);
+                        buttonPanel.add(Box.createRigidArea(new Dimension(8, 0)));
+                        buttonPanel.add(yesBtn);
+
+                        setBorder(new EmptyBorder(16, 16, 16, 16));
+                        dialog.add(Box.createVerticalGlue());
+                        dialog.add(label);
+                        dialog.add(Box.createRigidArea(new Dimension(0, 16)));
+                        dialog.add(buttonPanel);
+                        dialog.add(Box.createVerticalGlue());
+
+                        dialog.setSize(300, 200);
+                        dialog.setLocationRelativeTo(homeGUI.getFrame());
+                        dialog.setVisible(true);
                     }
+
                 });
-
-                JButton noBtn = new JButton("No");
-                noBtn.setAlignmentX(CENTER_ALIGNMENT);
-                noBtn.setMaximumSize(new Dimension(100, 50));
-                noBtn.setBackground(new Color(226, 226, 226));
-                noBtn.setForeground(new Color(9, 9, 11));
-                noBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        dialog.dispose();
-                    }
-                });
-
-                JPanel buttoPanel = new JPanel();
-                buttoPanel.setBackground(new Color(9, 9, 11));
-                buttoPanel.setLayout(new BoxLayout(buttoPanel, BoxLayout.X_AXIS));
-                buttoPanel.add(noBtn);
-                buttoPanel.add(Box.createRigidArea(new Dimension(8, 0)));
-                buttoPanel.add(yesBtn);
-
-                setBorder(new EmptyBorder(16, 16, 16, 16));
-                dialog.add(Box.createVerticalGlue());
-                dialog.add(label);
-                dialog.add(Box.createRigidArea(new Dimension(0, 16)));
-                dialog.add(buttoPanel);
-                dialog.add(Box.createVerticalGlue());
-
-                dialog.setSize(300, 200);
-                dialog.setLocationRelativeTo(homeGUI.getFrame());
-                dialog.setVisible(true);
-            }
-        });
 
         add(Box.createVerticalGlue());
         add(label);

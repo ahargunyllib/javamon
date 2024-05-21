@@ -10,6 +10,12 @@ import javamon.backend.entity.Monster;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.HomebasePanel;
 import javamon.frontend.Panel;
+import javamon.frontend.components.Label;
+import javamon.frontend.components.Row;
+import javamon.frontend.components.TextField;
+import javamon.frontend.components.Button;
+import javamon.frontend.styles.Colors;
+import javamon.frontend.styles.Typography;
 
 public class NewGamePanel extends Panel {
     public NewGamePanel(HomeGUI homeGUI) {
@@ -18,34 +24,17 @@ public class NewGamePanel extends Panel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(9, 9, 11));
 
-        JLabel label = new JLabel("Create Player");
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 36));
-        label.setAlignmentX(CENTER_ALIGNMENT);
-        label.setForeground(new Color(226, 226, 226));
+        Label label = new Label("New Game", Typography.TITLE);
+        Label nameLabel = new Label("Name:", Typography.BODY);
 
-        JLabel nameLabel = new JLabel("Enter Your Name:");
-        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        nameLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        nameLabel.setAlignmentX(CENTER_ALIGNMENT);
-        nameLabel.setForeground(new Color(226, 226, 226));
+        TextField nameField = new TextField();
 
-        JTextField nameField = new JTextField();
-        nameField.setHorizontalAlignment(SwingConstants.CENTER);
-        nameField.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        nameField.setAlignmentX(CENTER_ALIGNMENT);
-        nameField.setForeground(new Color(9, 9, 11));
-        nameField.setMaximumSize(new Dimension(200, 30));
-
-        JLabel chooseMonsterLabel = new JLabel("Choose Your Starter Monsters:");
-        chooseMonsterLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        chooseMonsterLabel.setForeground(new Color(226, 226, 226));
-        chooseMonsterLabel.setAlignmentX(CENTER_ALIGNMENT);
+        Label chooseMonsterLabel = new Label("Choose 3 monsters:", Typography.BODY);
 
         JCheckBox[] monsterButtons = new JCheckBox[5];
         JPanel monsterPanel = new JPanel();
         monsterPanel.setLayout(new BoxLayout(monsterPanel, BoxLayout.X_AXIS));
-        monsterPanel.setBackground(new Color(9, 9, 11));
+        monsterPanel.setBackground(Colors.BACKGROUND);
 
         Monster[] monsters = Javamon.getMONSTERS();
 
@@ -53,38 +42,24 @@ public class NewGamePanel extends Panel {
             int index = (int) (Math.random() * monsters.length);
             monsterButtons[i] = new JCheckBox(monsters[index].getName());
             monsterButtons[i].setActionCommand(monsters[index].getName());
-            monsterButtons[i].setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-            monsterButtons[i].setForeground(new Color(226, 226, 226));
-            monsterButtons[i].setBackground(new Color(9, 9, 11));
+            monsterButtons[i].setFont(Typography.SMALL);
+            monsterButtons[i].setForeground(Colors.TEXT);
+            monsterButtons[i].setBackground(Colors.BACKGROUND);
             monsterButtons[i].setAlignmentX(CENTER_ALIGNMENT);
 
             monsterPanel.add(monsterButtons[i]);
         }
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        buttonPanel.setBackground(new Color(9, 9, 11));
+        Row buttonPanel = new Row();
 
-        JButton cancelBtn = new JButton("Cancel");
-        cancelBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        cancelBtn.setAlignmentX(CENTER_ALIGNMENT);
-        cancelBtn.setMaximumSize(new Dimension(100, 50));
-        cancelBtn.setBackground(new Color(226, 226, 226));
-        cancelBtn.setForeground(new Color(9, 9, 11));
-        cancelBtn.addActionListener(new ActionListener() {
+        Button cancelBtn = new Button("Cancel", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 homeGUI.setPanel("welcome");
             }
         });
 
-        JButton createBtn = new JButton("Create");
-        createBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-        createBtn.setAlignmentX(CENTER_ALIGNMENT);
-        createBtn.setMaximumSize(new Dimension(100, 50));
-        createBtn.setBackground(new Color(226, 226, 226));
-        createBtn.setForeground(new Color(9, 9, 11));
-        createBtn.addActionListener(new ActionListener() {
+        Button createBtn = new Button("Create", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
