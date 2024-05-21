@@ -30,7 +30,7 @@ public class HomebasePanel extends Panel {
                 homeGUI.setPanel("welcome");
             }
         });
-        
+
         Button dungeonBtn = new Button("Go to Dungeon", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,48 +122,26 @@ public class HomebasePanel extends Panel {
         bottomSidePanel.add(Box.createHorizontalStrut(8));
         bottomSidePanel.add(restoreMonsterBtn);
         bottomSidePanel.add(Box.createHorizontalGlue());
-        
-        Label leftMonsterNameLbl = new Label(Javamon.getPLAYER().getMonsters()[0].getName(), Typography.LABEL);
-        Label leftMonsterHpLbl = new Label("HP: " + Javamon.getPLAYER().getMonsters()[0].getCurrHp() + "/" + Javamon.getPLAYER().getMonsters()[0].getMaxHp(), Typography.LABEL);
 
-        Column leftMonsterPanel = new Column();
-        leftMonsterPanel.add(Box.createVerticalGlue());
-        leftMonsterPanel.add(leftMonsterNameLbl);
-        leftMonsterPanel.add(Box.createVerticalStrut(8));
-        leftMonsterPanel.add(leftMonsterHpLbl);
-        leftMonsterPanel.add(Box.createVerticalGlue());
-
-        Label centerMonsterNameLbl = new Label(Javamon.getPLAYER().getMonsters()[1].getName(), Typography.LABEL);
-        Label centerMonsterHpLbl = new Label("HP: " + Javamon.getPLAYER().getMonsters()[1].getCurrHp() + "/" + Javamon.getPLAYER().getMonsters()[1].getMaxHp(), Typography.LABEL);
-
-        Column centerMonsterPanel = new Column();
-        centerMonsterPanel.setLayout(new BoxLayout(centerMonsterPanel, BoxLayout.Y_AXIS));
-        centerMonsterPanel.setBackground(new Color(9, 9, 11));
-        centerMonsterPanel.setAlignmentX(CENTER_ALIGNMENT);
-        centerMonsterPanel.add(Box.createVerticalGlue());
-        centerMonsterPanel.add(centerMonsterNameLbl);
-        centerMonsterPanel.add(Box.createVerticalStrut(8));
-        centerMonsterPanel.add(centerMonsterHpLbl);
-        centerMonsterPanel.add(Box.createVerticalGlue());
-
-        Label rightMonsterNameLbl = new Label(Javamon.getPLAYER().getMonsters()[2].getName(), Typography.LABEL);
-        Label rightMonsterHpLbl = new Label("HP: " + Javamon.getPLAYER().getMonsters()[2].getCurrHp() + "/" + Javamon.getPLAYER().getMonsters()[2].getMaxHp(), Typography.LABEL);
-
-        Column rightMonsterPanel = new Column();
-        rightMonsterPanel.add(Box.createVerticalGlue());
-        rightMonsterPanel.add(rightMonsterNameLbl);
-        rightMonsterPanel.add(Box.createVerticalStrut(8));
-        rightMonsterPanel.add(rightMonsterHpLbl);
-        rightMonsterPanel.add(Box.createVerticalGlue());
+        Column[] monstersPanel = new Column[Javamon.getPLAYER().getMonsters().length];
+        for (int i = 0; i < Javamon.getPLAYER().getMonsters().length; i++) {
+            monstersPanel[i] = new Column();
+            monstersPanel[i].add(Box.createVerticalGlue());
+            monstersPanel[i].add(new Label(Javamon.getPLAYER().getMonsters()[i].getName(), Typography.LABEL));
+            monstersPanel[i].add(Box.createVerticalStrut(8));
+            monstersPanel[i].add(new Label("HP: " + Javamon.getPLAYER().getMonsters()[i].getCurrHp() + "/"
+                    + Javamon.getPLAYER().getMonsters()[i].getMaxHp(), Typography.LABEL));
+            monstersPanel[i].add(Box.createVerticalGlue());
+        }
 
         Row centerSidePanel = new Row();
-        centerSidePanel.add(leftMonsterPanel);
         centerSidePanel.add(Box.createHorizontalGlue());
-        centerSidePanel.add(centerMonsterPanel);
+        for (int i = 0; i < Javamon.getPLAYER().getMonsters().length; i++) {
+            centerSidePanel.add(monstersPanel[i]);
+            if (i != Javamon.getPLAYER().getMonsters().length - 1)
+                centerSidePanel.add(Box.createHorizontalStrut(8));
+        }
         centerSidePanel.add(Box.createHorizontalGlue());
-        centerSidePanel.add(rightMonsterPanel);
-        centerSidePanel.add(Box.createHorizontalGlue());
-
 
         add(topSidePanel, BorderLayout.NORTH);
         add(leftSidePanel, BorderLayout.WEST);

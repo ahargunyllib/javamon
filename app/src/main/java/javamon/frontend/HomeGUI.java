@@ -40,6 +40,12 @@ public class HomeGUI {
         this.panel.add(panel, name);
     }
 
+    public void replacePanel(String name, Panel panel) {
+        panelMap.put(name, panel);
+        this.panel.remove(panel);
+        this.panel.add(panel, name);
+    }
+
     public void exit() {
         frame.dispose();
     }

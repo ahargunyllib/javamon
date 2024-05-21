@@ -13,7 +13,7 @@ public class Homebase extends Place {
     private Player player;
 
     public Homebase(Player player) {
-        super(new Monster[1]);
+        super(null);
         this.player = player;
     }
 
@@ -50,6 +50,8 @@ public class Homebase extends Place {
         player.setMonsters(newMonsters);
         // set monsters ke homebase
         setMonsters(monsters);
+
+        
     }
 
     public void restoreMonster(Monster[] monsters) {
