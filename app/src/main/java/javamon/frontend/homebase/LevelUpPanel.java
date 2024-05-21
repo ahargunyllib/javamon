@@ -25,7 +25,7 @@ public class LevelUpPanel extends Panel {
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        Label pageLbl = new Label("Evolve Your Monster!", Typography.TITLE);
+        Label pageLbl = new Label("Level Up Your Monster!", Typography.TITLE);
         Label usernameLbl = new Label("Username: " + Javamon.getPLAYER().getName(), Typography.BODY);
         Label monsterLbl = new Label("Choose a monster to evolve:", Typography.BODY);
         
