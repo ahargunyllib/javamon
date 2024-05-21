@@ -1,11 +1,8 @@
 package javamon.frontend.homebase;
 
-import java.awt.BorderLayout;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import java.awt.event.*;
@@ -17,7 +14,6 @@ import javamon.backend.exceptions.CannotEvolveException;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Button;
-import javamon.frontend.components.Column;
 import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.styles.Colors;
@@ -88,7 +84,19 @@ public class EvolvePanel extends Panel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String monsterName = monsters.getSelection().getActionCommand();
+                if (monsterName == null) {
+                    JOptionPane.showMessageDialog(homeGUI.getFrame(), "Please select a monster", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 String evolveName = evolves.getSelection().getActionCommand();
+                if (evolveName == null) {
+                    JOptionPane.showMessageDialog(homeGUI.getFrame(), "Please select an element", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 Monster monster = null;
                 for (int i = 0; i < Javamon.getPLAYER().getMonsters().length; i++) {
                     if (Javamon.getPLAYER().getMonsters()[i].getName().equals(monsterName)) {

@@ -24,8 +24,14 @@ public class Monster {
         this.gold = gold;
     }
 
-    public void levelUp(int neededXp) {
-        this.setExp(this.getExp() - neededXp);
+    public void levelUp(int neededExp) {
+        this.setLevel(this.getLevel() + 1);
+        this.setMaxHp(this.getMaxHp() + 50);
+        this.setExp(this.getExp() + 25);
+        this.setAttackPower(this.getAttackPower() + 25);
+        this.setDefense(this.getDefense() + 20);
+
+        this.setExp(this.getExp() - neededExp);
     }
 
     public void changeElement(Element element) {

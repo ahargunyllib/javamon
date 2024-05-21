@@ -90,10 +90,11 @@ public class Homebase extends Place {
 
     public void levelUp(Monster monster) throws NotEnoughExpException {
         int currLevel = monster.getLevel();
-        int neededXp = currLevel * 100;
+        int neededXp = currLevel * 10;
 
         if (monster.getExp() >= neededXp) {
             monster.levelUp(neededXp);
+            System.out.printf("%s leveled up\n", monster);
         } else {
             throw new NotEnoughExpException("Not enough exp to level up");
         }
