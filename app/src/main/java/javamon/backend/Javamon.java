@@ -15,6 +15,7 @@ public class Javamon {
     public static Monster[] MONSTERS;
     public static Player PLAYER;
     public static Homebase HOMEBASE;
+    public static Item[] ITEMS;
 
     public static void newGame(String name, Monster[] monsters) {
         Player player = new Player(name, monsters, 1000);
@@ -74,7 +75,7 @@ public class Javamon {
     }
 
     public static void registerItems() {
-        Item[] items = new Item[6];
+        ITEMS = new Item[6];
         String[] listNama = { "Big Health Potion", "Medium Health Potion", "Small Health Potion",
                 "Big Elemental Potion", "Medium Elemental Potion", "Small Elemental Potion" };
 
@@ -93,7 +94,7 @@ public class Javamon {
                 price = 50;
             }
 
-            items[i - 1] = new HealthPotion(value, price, listNama[i - 1]);
+            ITEMS[i - 1] = new HealthPotion(value, price, listNama[i - 1]);
         }
     }
 
@@ -119,5 +120,13 @@ public class Javamon {
 
     public static void setHOMEBASE(Homebase hOMEBASE) {
         HOMEBASE = hOMEBASE;
+    }
+
+    public static Item[] getITEMS() {
+        return ITEMS;
+    }
+
+    public static void setITEMS(Item[] iTEMS) {
+        ITEMS = iTEMS;
     }
 }
