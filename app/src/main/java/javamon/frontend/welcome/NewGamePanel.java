@@ -8,11 +8,11 @@ import javax.swing.*;
 import javamon.backend.Javamon;
 import javamon.backend.entity.Monster;
 import javamon.frontend.HomeGUI;
-import javamon.frontend.HomebasePanel;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.components.TextField;
+import javamon.frontend.homebase.HomebasePanel;
 import javamon.frontend.components.Button;
 import javamon.frontend.styles.Colors;
 import javamon.frontend.styles.Typography;
@@ -41,7 +41,7 @@ public class NewGamePanel extends Panel {
         for (int i = 0; i < 5; i++) {
             int index = (int) (Math.random() * monsters.length);
             monsterButtons[i] = new JCheckBox(monsters[index].getName());
-            monsterButtons[i].setActionCommand(monsters[index].getName());
+        monsterButtons[i].setActionCommand(monsters[index].getName());
             monsterButtons[i].setFont(Typography.SMALL);
             monsterButtons[i].setForeground(Colors.TEXT);
             monsterButtons[i].setBackground(Colors.BACKGROUND);

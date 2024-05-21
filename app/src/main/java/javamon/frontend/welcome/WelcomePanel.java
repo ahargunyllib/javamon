@@ -27,6 +27,8 @@ public class WelcomePanel extends Panel {
         Button newGameBtn = new Button("New Game", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                NewGamePanel newGamePanel = new NewGamePanel(homeGUI);
+                homeGUI.addPanel("newGame", newGamePanel);
                 homeGUI.setPanel("newGame");
             }
         });
