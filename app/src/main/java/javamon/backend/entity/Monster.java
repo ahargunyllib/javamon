@@ -3,36 +3,41 @@ package javamon.backend.entity;
 public class Monster {
     private String name;
     private int level;
-    private double hp;
+    private double maxHp;
+    private double currHp;
     private double exp;
     private Element element;
     private double attackPower;
     private double defense;
+    private double gold;
 
-    public Monster(String name, int level, double hp, double exp, Element element, double attackPower, double defense) {
+    public Monster(String name, int level, double maxHp, double exp, Element element, double attackPower,
+            double defense, double gold) {
         this.name = name;
         this.level = level;
-        this.hp = hp;
+        this.maxHp = maxHp;
+        this.currHp = maxHp;
         this.exp = exp;
         this.element = element;
         this.attackPower = attackPower;
         this.defense = defense;
+        this.gold = gold;
     }
 
-    public void levelUp(int target) {
-        // TODO: Implement this method
+    public void levelUp(int neededXp) {
+        this.setExp(this.getExp() - neededXp);
     }
 
-    public void hangeElement(Element element) {
-        // TODO: Implement this method
+    public void changeElement(Element element) {
+        this.setElement(element);
     }
 
-    public void restoreHp(int target) {
-        // TODO: Implement this method
+    public void restoremaxHp() {
+        this.setCurrHp(this.getMaxHp());
     }
 
-    public String getElement() {
-        return element.toString();
+    public Element getElement() {
+        return element;
     }
 
     @Override
@@ -40,7 +45,8 @@ public class Monster {
         return "Monster{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
-                ", hp=" + hp +
+                ", maxHp=" + maxHp +
+                ", currHp=" + currHp +
                 ", exp=" + exp +
                 ", element=" + element +
                 ", attackPower=" + attackPower +
@@ -64,12 +70,12 @@ public class Monster {
         this.level = level;
     }
 
-    public double getHp() {
-        return hp;
+    public double getMaxHp() {
+        return maxHp;
     }
 
-    public void setHp(double hp) {
-        this.hp = hp;
+    public void setMaxHp(double maxHp) {
+        this.maxHp = maxHp;
     }
 
     public double getExp() {
@@ -100,4 +106,19 @@ public class Monster {
         this.defense = defense;
     }
 
+    public double getCurrHp() {
+        return currHp;
+    }
+
+    public void setCurrHp(double currHp) {
+        this.currHp = currHp;
+    }
+
+    public double getGold() {
+        return gold;
+    }
+
+    public void setGold(double gold) {
+        this.gold = gold;
+    }
 }

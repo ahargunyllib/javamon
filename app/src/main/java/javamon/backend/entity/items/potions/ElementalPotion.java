@@ -5,8 +5,8 @@ import javamon.backend.entity.items.Item;
 public class ElementalPotion extends Item {
     private String name;
 
-    public ElementalPotion(int value, String name) {
-        super(value);
+    public ElementalPotion(int value, double price, String name) {
+        super(value, price);
         this.name = name;
     }
 

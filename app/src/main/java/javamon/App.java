@@ -17,6 +17,7 @@ public class App {
         frame.setLocationRelativeTo(null); // center the window
 
         Javamon.registerMonsters(); // register monsters
+        Javamon.registerItems(); // register items
         
         HomeGUI homeGUI = new HomeGUI(frame); // create a new HomeGUI object
         homeGUI.setPanel("welcome"); // set the panel to "welcome"

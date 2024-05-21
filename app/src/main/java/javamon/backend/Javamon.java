@@ -7,14 +7,21 @@ import java.io.IOException;
 import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.Player;
+import javamon.backend.entity.items.Item;
+import javamon.backend.entity.items.potions.HealthPotion;
+import javamon.backend.entity.places.Homebase;
 
 public class Javamon {
     public static Monster[] MONSTERS;
     public static Player PLAYER;
+    public static Homebase HOMEBASE;
 
     public static void newGame(String name, Monster[] monsters) {
-        Player player = new Player(name, monsters);
+        Player player = new Player(name, monsters, 1000);
+        Homebase homebase = new Homebase(player);
+
         setPLAYER(player);
+        setHOMEBASE(homebase);
 
         System.out.println("New game created for " + name + ".");
     }
@@ -31,7 +38,7 @@ public class Javamon {
             FileWriter writer = new FileWriter(namaFile);
             writer.write(data);
             writer.close();
-            
+
             System.out.println("Game saved to " + namaFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,9 +65,35 @@ public class Javamon {
             Element element = Element.values()[(int) (Math.random() * Element.values().length)];
             int attackPower = (int) (Math.random() * 30 * level * 0.5);
             int defense = (int) (Math.random() * 30 * level * 0.5);
+            int gold = (int) (Math.random() * 100 * level * 0.5);
 
-            MONSTERS[i] = new Monster(listNama[i], level, hp, exp, element, attackPower, defense);
+            MONSTERS[i] = new Monster(listNama[i], level, hp, exp, element, attackPower,
+                    defense, gold);
             System.out.println(MONSTERS[i].toString() + " created.");
+        }
+    }
+
+    public static void registerItems() {
+        Item[] items = new Item[6];
+        String[] listNama = { "Big Health Potion", "Medium Health Potion", "Small Health Potion",
+                "Big Elemental Potion", "Medium Elemental Potion", "Small Elemental Potion" };
+
+        for (int i = 1; i <= 6; i++) {
+            int mod = i % 3;
+            int value, price;
+
+            if (mod == 1) { // Big
+                value = 75;
+                price = 100;
+            } else if (mod == 2) { // Medium
+                value = 50;
+                price = 75;
+            } else { // Small
+                value = 25;
+                price = 50;
+            }
+
+            items[i - 1] = new HealthPotion(value, price, listNama[i - 1]);
         }
     }
 
@@ -80,5 +113,11 @@ public class Javamon {
         PLAYER = pLAYER;
     }
 
-    
+    public static Homebase getHOMEBASE() {
+        return HOMEBASE;
+    }
+
+    public static void setHOMEBASE(Homebase hOMEBASE) {
+        HOMEBASE = hOMEBASE;
+    }
 }
