@@ -27,7 +27,7 @@ public class LevelUpPanel extends Panel {
 
         Label pageLbl = new Label("Level Up Your Monster!", Typography.TITLE);
         Label usernameLbl = new Label("Username: " + Javamon.getPLAYER().getName(), Typography.BODY);
-        Label monsterLbl = new Label("Choose a monster to evolve:", Typography.BODY);
+        Label monsterLbl = new Label("Choose a monster to level up:", Typography.BODY);
         
         add(pageLbl);
         add(Box.createVerticalStrut(8));
@@ -62,7 +62,7 @@ public class LevelUpPanel extends Panel {
             }
         });
 
-        Button evolveBtn = new Button("Evolve", Typography.BUTTON, new ActionListener() {
+        Button evolveBtn = new Button("Level Up", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String monsterName = monsters.getSelection().getActionCommand();
