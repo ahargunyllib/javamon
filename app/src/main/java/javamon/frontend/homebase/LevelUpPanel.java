@@ -62,7 +62,7 @@ public class LevelUpPanel extends Panel {
             }
         });
 
-        Button evolveBtn = new Button("Level Up", Typography.BUTTON, new ActionListener() {
+        Button levelUpBtn = new Button("Level Up", Typography.BUTTON, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String monsterName = monsters.getSelection().getActionCommand();
@@ -97,7 +97,7 @@ public class LevelUpPanel extends Panel {
 
         buttonPanel.add(backBtn);
         buttonPanel.add(Box.createHorizontalStrut(8));
-        buttonPanel.add(evolveBtn);
+        buttonPanel.add(levelUpBtn);
 
         add(buttonPanel);
     }
