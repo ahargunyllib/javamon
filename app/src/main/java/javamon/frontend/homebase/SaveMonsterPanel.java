@@ -11,7 +11,6 @@ import javamon.backend.entity.Monster;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Button;
-import javamon.frontend.components.Column;
 import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.components.SizedBox;
