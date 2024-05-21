@@ -6,6 +6,7 @@ import javamon.backend.entity.Player;
 import javamon.backend.entity.items.Item;
 import javamon.backend.exceptions.CannotEvolveException;
 import javamon.backend.exceptions.CannotHealException;
+import javamon.backend.exceptions.FullInventoryException;
 import javamon.backend.exceptions.NotEnoughExpException;
 import javamon.backend.exceptions.NotEnoughGoldException;
 
@@ -181,12 +182,12 @@ public class Homebase extends Place {
 
     }
 
-    public void addItem(Item item) {
+    public void buyItem(Item item) throws FullInventoryException, NotEnoughGoldException {
         double playerGold = player.getGold();
         double itemPrice = item.getPrice();
 
         if (player.getItems()[9] != null) {
-            // throw inventory full exception
+            throw new FullInventoryException("Inventory is full");
         }
 
         if (playerGold >= itemPrice) {
@@ -198,7 +199,7 @@ public class Homebase extends Place {
             }
             player.setGold(playerGold - itemPrice);
         } else {
-            // throw not enough gold exception
+            throw new NotEnoughGoldException("Not enough gold to buy item");
         }
     }
 }

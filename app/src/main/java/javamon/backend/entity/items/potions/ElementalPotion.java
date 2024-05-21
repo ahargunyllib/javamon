@@ -3,11 +3,8 @@ package javamon.backend.entity.items.potions;
 import javamon.backend.entity.items.Item;
 
 public class ElementalPotion extends Item {
-    private String name;
-
     public ElementalPotion(int value, double price, String name) {
-        super(value, price);
-        this.name = name;
+        super(name, value, price);
     }
 
     @Override
