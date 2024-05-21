@@ -1,12 +1,11 @@
 package javamon.backend.exceptions;
 
 public class CannotEvolveException extends GameException {
-    public CannotEvolveException(String message) {
-        super(message);
+    public CannotEvolveException() {
+        super("Cannot evolve");
     }
 
-    @Override
-    public String getMessage() {
-        return super.message;
+    public CannotEvolveException(String message) {
+        super(message);
     }
 }

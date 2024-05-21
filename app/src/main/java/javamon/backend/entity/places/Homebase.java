@@ -14,7 +14,7 @@ public class Homebase extends Place {
     private Player player;
 
     public Homebase(Player player) {
-        super(null);
+        super(new Monster[0]);
         this.player = player;
     }
 
@@ -24,7 +24,7 @@ public class Homebase extends Place {
     }
 
     public void saveMonster(Monster[] monsters) {
-        // hilangkan monster dari player
+        // Hilangkan monster dari player
         int cnt = 0;
         Monster[] playerMonsters = player.getMonsters();
         for (int i = 0; i < playerMonsters.length; i++) {
@@ -37,26 +37,27 @@ public class Homebase extends Place {
             }
         }
 
-        // buat array baru tanpa monster yang disave
+        // Buat array baru tanpa monster yang disave
         Monster[] newMonsters = new Monster[playerMonsters.length - cnt];
         int idx = 0;
         for (int i = 0; i < playerMonsters.length; i++) {
             if (playerMonsters[i] != null) {
                 newMonsters[idx] = playerMonsters[i];
                 idx++;
+
+                System.out.printf("%s saved\n", playerMonsters[i]);
             }
         }
 
-        // set monsters baru ke player
+        // Set monsters baru ke player
         player.setMonsters(newMonsters);
-        // set monsters ke homebase
-        setMonsters(monsters);
-
         
+        // Set monsters yang disave ke homebase
+        setMonsters(monsters);
     }
 
     public void restoreMonster(Monster[] monsters) {
-        // hilangkan monster dari homebase
+        // Hilangkan monster dari homebase
         int cnt = 0;
         Monster[] homebaseMonsters = getMonsters();
         for (int i = 0; i < homebaseMonsters.length; i++) {
@@ -69,7 +70,7 @@ public class Homebase extends Place {
             }
         }
 
-        // buat array baru tanpa monster yang direstore
+        // Buat array baru tanpa monster yang direstore
         Monster[] newMonsters = new Monster[homebaseMonsters.length - cnt];
         int idx = 0;
         for (int i = 0; i < homebaseMonsters.length; i++) {
@@ -79,50 +80,71 @@ public class Homebase extends Place {
             }
         }
 
-        // set monsters baru ke homebase
+        // Set monsters lama ke homebase
         setMonsters(newMonsters);
-        // set monsters ke player
+
         Monster[] playerMonsters = player.getMonsters();
         Monster[] newPlayerMonsters = new Monster[playerMonsters.length + cnt];
+
+        // Copy monsters lama ke array baru
         for (int i = 0; i < playerMonsters.length; i++) {
             newPlayerMonsters[i] = playerMonsters[i];
         }
+
+        // Set monsters yang di restore ke player
         for (int i = 0; i < monsters.length; i++) {
             newPlayerMonsters[playerMonsters.length + i] = monsters[i];
+            System.out.printf("%s restored\n", monsters[i]);
         }
         player.setMonsters(newPlayerMonsters);
     }
 
     public void levelUp(Monster monster) throws NotEnoughExpException {
         int currLevel = monster.getLevel();
-        int neededXp = currLevel * 10;
+        double monsterExp = monster.getExp();
 
-        if (monster.getExp() >= neededXp) {
-            monster.levelUp(neededXp);
-            System.out.printf("%s leveled up\n", monster);
-        } else {
-            throw new NotEnoughExpException("Not enough exp to level up");
+        int expPerLevel = 10;
+        int neededXp = currLevel * expPerLevel;
+
+        // Cek apakah monster punya cukup exp untuk level up
+        if (monsterExp < neededXp) {
+            throw new NotEnoughExpException();
         }
+
+        monster.levelUp(neededXp);
+        System.out.printf("%s leveled up\n", monster);
     }
 
     public void restoreHp(Monster monster) throws CannotHealException, NotEnoughGoldException {
         double currHp = monster.getCurrHp();
         double maxHp = monster.getMaxHp();
 
+        int hpPrice = 10;
+        double playerGold = player.getGold();
+        double hpToRestore = maxHp - currHp;
+        double price = hpToRestore * hpPrice;
+
+        // Hp monster penuh
         if (currHp == maxHp) {
-            throw new CannotHealException("Monster is already at full health");
-        } else {
-            if (player.getGold() >= 50) {
-                player.setGold(player.getGold() - 50);
-                monster.restoremaxHp();
-            } else {
-                throw new NotEnoughGoldException("Not enough gold to heal monster");
-            }
+            throw new CannotHealException();
         }
+
+        // Cek apakah player punya cukup gold
+        if (playerGold < price) {
+            throw new NotEnoughGoldException();
+        }
+
+        // Kurangi gold player
+        player.setGold(playerGold - price);
+        System.out.printf("Player gold: %f\n", playerGold - price);
+
+        // Restore hp monster
+        monster.setCurrHp(maxHp);
+        System.out.printf("%s's hp restored\n", monster);
     }
 
     public void evolve(Monster monster, Element element) throws CannotEvolveException {
-        Element[] elements = new Element[]{Element.Api, Element.Angin, Element.Air, Element.Es, Element.Tanah};
+        Element[] elements = new Element[] { Element.Api, Element.Angin, Element.Air, Element.Es, Element.Tanah };
 
         /*
          * 0: Api
@@ -160,46 +182,51 @@ public class Homebase extends Place {
 
         Element currElement = monster.getElement();
 
+        // Ambil index dari element yang mau di-evolve dan element monster
         int currIndex = 0;
         int elementIndex = 0;
         for (int i = 0; i < elements.length; i++) {
-            if (currElement == elements[i]) {
+            if (currElement == elements[i])
                 currIndex = i;
-            }
 
-            if (element == elements[i]) {
+            if (element == elements[i])
                 elementIndex = i;
-            }
+
         }
 
-        if (canEvolve[currIndex][elementIndex]) {;
-            // monster.setName(""); // TODO: set the name of the monster
-            monster.changeElement(element);
-            System.out.printf("%s evolved\n", monster);
-        } else {
-            throw new CannotEvolveException("Cannot evolve to the specified element");
+        // Cek apakah monster bisa di-evolve ke element yang diinginkan
+        if (!canEvolve[currIndex][elementIndex]) {
+            throw new CannotEvolveException();
         }
 
+        // monster.setName(""); // TODO: set the name of the monster
+        monster.changeElement(element);
+        System.out.printf("%s evolved\n", monster);
     }
 
     public void buyItem(Item item) throws FullInventoryException, NotEnoughGoldException {
         double playerGold = player.getGold();
         double itemPrice = item.getPrice();
 
-        if (player.getItems()[9] != null) {
-            throw new FullInventoryException("Inventory is full");
+        // Cek apakah inventory player penuh
+        if (player.getItems()[9] != null)
+            throw new FullInventoryException();
+
+        // Cek apakah player punya cukup gold
+        if (playerGold < itemPrice)
+            throw new NotEnoughGoldException();
+
+        // Tambahkan item ke inventory player
+        for (int i = 0; i < player.getItems().length; i++) {
+            if (player.getItems()[i] == null) {
+                player.getItems()[i] = item;
+                System.out.printf("%s bought\n", item);
+                break;
+            }
         }
 
-        if (playerGold >= itemPrice) {
-            for (int i = 0; i < player.getItems().length; i++) {
-                if (player.getItems()[i] == null) {
-                    player.getItems()[i] = item;
-                    break;
-                }
-            }
-            player.setGold(playerGold - itemPrice);
-        } else {
-            throw new NotEnoughGoldException("Not enough gold to buy item");
-        }
+        // Kurangi gold player
+        player.setGold(playerGold - itemPrice);
+        System.out.printf("Player gold: %f\n", playerGold - itemPrice);
     }
 }

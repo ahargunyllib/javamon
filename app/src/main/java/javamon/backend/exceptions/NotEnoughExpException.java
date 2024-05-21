@@ -1,11 +1,12 @@
 package javamon.backend.exceptions;
 
 public class NotEnoughExpException extends GameException {
-    public NotEnoughExpException(String message) {
-        super(message);
+    public NotEnoughExpException() {
+        super("Not enough exp");
     }
 
-    public String getMessage() {
-        return super.message;
+    
+    public NotEnoughExpException(String message) {
+        super(message);
     }
 }

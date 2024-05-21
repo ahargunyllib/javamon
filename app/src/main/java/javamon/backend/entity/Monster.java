@@ -22,24 +22,37 @@ public class Monster {
         this.attackPower = attackPower;
         this.defense = defense;
         this.gold = gold;
+
+        System.out.printf("Monster %s created\n", this);
     }
 
     public void levelUp(int neededExp) {
+        int hpPerLevel = 50;
+        int expPerLevel = 25;
+        int attackPowerPerLevel = 25;
+        int defensePerLevel = 20;
+
         this.setLevel(this.getLevel() + 1);
-        this.setMaxHp(this.getMaxHp() + 50);
-        this.setExp(this.getExp() + 25);
-        this.setAttackPower(this.getAttackPower() + 25);
-        this.setDefense(this.getDefense() + 20);
+        this.setMaxHp(this.getMaxHp() + hpPerLevel);
+        this.setExp(this.getExp() + expPerLevel);
+        this.setAttackPower(this.getAttackPower() + attackPowerPerLevel);
+        this.setDefense(this.getDefense() + defensePerLevel);
 
         this.setExp(this.getExp() - neededExp);
+
+        System.out.printf("%s leveled up\n", this);
     }
 
     public void changeElement(Element element) {
         this.setElement(element);
+
+        System.out.printf("%s changed element to %s\n", this, element);
     }
 
     public void restoremaxHp() {
         this.setCurrHp(this.getMaxHp());
+
+        System.out.printf("%s's hp restored\n", this);
     }
 
     public Element getElement() {

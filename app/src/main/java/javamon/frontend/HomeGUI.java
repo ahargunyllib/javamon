@@ -2,7 +2,6 @@ package javamon.frontend;
 
 import javax.swing.*;
 
-import javamon.frontend.welcome.NewGamePanel;
 import javamon.frontend.welcome.WelcomePanel;
 
 import java.awt.*;

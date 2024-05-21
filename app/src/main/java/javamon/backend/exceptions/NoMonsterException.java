@@ -1,11 +1,11 @@
 package javamon.backend.exceptions;
 
 public class NoMonsterException extends GameException {
-    public NoMonsterException(String message) {
-        super(message);
+    public NoMonsterException() {
+        super("No monster");
     }
 
-    public String getMessage() {
-        return super.message;
+    public NoMonsterException(String message) {
+        super(message);
     }
 }

@@ -7,6 +7,7 @@ public abstract class GameException extends Exception {
         this.message = message;
     }
 
-    public abstract String getMessage();
-
+    public String getMessage() {
+        return message;
+    }
 }

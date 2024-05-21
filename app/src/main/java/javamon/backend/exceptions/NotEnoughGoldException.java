@@ -1,12 +1,11 @@
 package javamon.backend.exceptions;
 
 public class NotEnoughGoldException extends GameException {
-    public NotEnoughGoldException(String message) {
-        super(message);
+    public NotEnoughGoldException() {
+        super("Not enough gold");
     }
 
-    @Override
-    public String getMessage() {
-        return super.message;
+    public NotEnoughGoldException(String message) {
+        super(message);
     }
 }

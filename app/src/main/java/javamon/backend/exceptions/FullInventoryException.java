@@ -1,12 +1,11 @@
 package javamon.backend.exceptions;
 
 public class FullInventoryException extends GameException {
-    public FullInventoryException(String message) {
-        super(message);
+    public FullInventoryException() {
+        super("Inventory is full");
     }
 
-    @Override
-    public String getMessage() {
-        return super.message;
+    public FullInventoryException(String message) {
+        super(message);
     }
 }

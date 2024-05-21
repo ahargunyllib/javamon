@@ -14,6 +14,8 @@ public class Player {
         this.monsters = monsters;
         this.gold = gold;
         this.items = new Item[10];
+
+        System.out.printf("Player %s created\n", this);
     }
 
     public void addMonster(Monster monster) {
@@ -28,6 +30,9 @@ public class Player {
     public String toString() {
         return "Player{" +
                 "name='" + name + '\'' +
+                ", monsters=" + monsters +
+                ", gold=" + gold +
+                ", items=" + items +
                 '}';
     }
 

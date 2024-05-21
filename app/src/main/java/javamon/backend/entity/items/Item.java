@@ -13,6 +13,15 @@ public abstract class Item {
 
     public abstract void use();
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                ", price=" + price +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

@@ -1,6 +1,5 @@
 package javamon.backend;
 
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -96,6 +95,85 @@ public class Javamon {
 
             ITEMS[i - 1] = new HealthPotion(value, price, listNama[i - 1]);
         }
+    }
+
+    public static Monster[] getPlayerMonsters() {
+        return PLAYER.getMonsters();
+    }
+
+    public static Monster getPlayerMonster(int index) {
+        return PLAYER.getMonsters()[index];
+    }
+
+    public static Monster getPlayerMonster(String name) {
+        for (Monster monster : PLAYER.getMonsters()) {
+            if (monster.getName().equals(name)) {
+                return monster;
+            }
+        }
+
+        return null;
+    }
+
+    public static Item getPlayerItem(int index) {
+        return PLAYER.getItems()[index];
+    }
+
+    public static Item getPlayerItem(String name) {
+        for (Item item : PLAYER.getItems()) {
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    public static Monster[] getHomebaseMonsters() {
+        return HOMEBASE.getMonsters();
+    }
+
+    public static Monster getHomebaseMonster(int index) {
+        return HOMEBASE.getMonsters()[index];
+    }
+
+    public static Monster getHomebaseMonster(String name) {
+        for (Monster monster : HOMEBASE.getMonsters()) {
+            if (monster.getName().equals(name)) {
+                return monster;
+            }
+        }
+
+        return null;
+    }
+
+    public static Monster getMonster(int index) {
+        return MONSTERS[index];
+    }
+
+    
+    public static Monster getMonster(String name) {
+        for (Monster monster : MONSTERS) {
+            if (monster.getName().equals(name)) {
+                return monster;
+            }
+        }
+
+        return null;
+    }
+
+    public static Item getItem(int index) {
+        return ITEMS[index];
+    }
+
+    public static Item getItem(String name) {
+        for (Item item : ITEMS) {
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+
+        return null;
     }
 
     public static Monster[] getMONSTERS() {

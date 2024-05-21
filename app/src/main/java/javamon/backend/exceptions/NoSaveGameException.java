@@ -1,11 +1,11 @@
 package javamon.backend.exceptions;
 
 public class NoSaveGameException extends GameException {
-    public NoSaveGameException(String message) {
-        super(message);
+    public NoSaveGameException() {
+        super("No save game");
     }
 
-    public String getMessage() {
-        return super.message;
+    public NoSaveGameException(String message) {
+        super(message);
     }
 }
