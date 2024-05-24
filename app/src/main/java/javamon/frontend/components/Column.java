@@ -11,7 +11,7 @@ public class Column extends JPanel {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setAlignmentX(CENTER_ALIGNMENT);
-        setBackground(Colors.BACKGROUND);
+        setBackground(Colors.TRANSPARENT);
     }
     
 }

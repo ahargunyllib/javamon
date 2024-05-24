@@ -9,7 +9,7 @@ public class Row extends JPanel {
     public Row() {
         super();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setBackground(Colors.BACKGROUND);
         setAlignmentY(CENTER_ALIGNMENT);
+        setBackground(Colors.TRANSPARENT);
     }
 }

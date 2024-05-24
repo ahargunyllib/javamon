@@ -182,4 +182,12 @@ public class HomebasePanel extends Panel {
     public void refresh() {
         // TODO: Implement this method
     }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        ImageIcon bgImage = new ImageIcon("assets/images/background/homebase_bg.jpg");
+        g.drawImage(bgImage.getImage(), 0, 0, getWidth(), getHeight(), null);
+    }
 }

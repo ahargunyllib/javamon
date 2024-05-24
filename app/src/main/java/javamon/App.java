@@ -13,7 +13,8 @@ public class App {
         JFrame frame = new JFrame("Javamon"); // window title
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close the window
         frame.setResizable(false); // prevent resizing
-        frame.setSize(800, 600); // width, height
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // maximize the window
+        frame.setUndecorated(true); // remove the window border
         frame.setLocationRelativeTo(null); // center the window
 
         Javamon.registerMonsters(); // register monsters
