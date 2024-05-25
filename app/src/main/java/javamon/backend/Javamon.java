@@ -1,14 +1,20 @@
 package javamon.backend;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.BufferedReader;
 
 import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.Player;
 import javamon.backend.entity.items.Item;
+import javamon.backend.entity.items.potions.ElementalPotion;
 import javamon.backend.entity.items.potions.HealthPotion;
 import javamon.backend.entity.places.Homebase;
+import javamon.backend.exceptions.NoSaveGameException;
 
 public class Javamon {
     public static Monster[] MONSTERS;
@@ -26,13 +32,159 @@ public class Javamon {
         System.out.println("New game created for " + name + ".");
     }
 
-    private void loadGame() {
-        // TODO: Implement this method
+    public static void loadGame() throws NoSaveGameException {
+        File directory = new File("saves");
+        File[] files = directory.listFiles();
+        if (files == null) 
+            throw new NoSaveGameException();
+        
+        try {
+            FileReader file = new FileReader(files[files.length - 1]);
+            
+            BufferedReader reader = new BufferedReader(file);
+            String data = reader.readLine();
+            String[] splitData = data.split(";");
+            String name = splitData[0];
+            double gold = Double.parseDouble(splitData[1]);
+
+            data = reader.readLine();
+            splitData = data.split(";");
+            Monster[] monsters = new Monster[splitData.length];
+            for (int i = 0; i < splitData.length; i++) {
+                String[] monsterData = splitData[i].split(",");
+                String monsterName = monsterData[0];
+                int level = Integer.parseInt(monsterData[1]);
+                double maxHp = Double.parseDouble(monsterData[2]);
+                double currHp = Double.parseDouble(monsterData[3]);
+                double exp = Double.parseDouble(monsterData[4]);
+                Element element = Element.valueOf(monsterData[5]);
+                double attackPower = Double.parseDouble(monsterData[6]);
+                double defense = Double.parseDouble(monsterData[7]);
+                double monsterGold = Double.parseDouble(monsterData[8]);
+
+                monsters[i] = new Monster(monsterName, level, maxHp, currHp, exp, element, attackPower,
+                        defense, monsterGold);
+            }
+
+            data = reader.readLine();
+            splitData = data.split(";");
+            Item[] items = new Item[splitData.length];
+            for (int i = 0; i < splitData.length; i++) {
+                if (splitData[i].equals("null")) {
+                    continue;
+                }
+
+                String[] itemData = splitData[i].split(",");
+                String type = itemData[0].split(" ")[2];
+                String itemName = itemData[1];
+                int value = Integer.parseInt(itemData[2]);
+                double price = Double.parseDouble(itemData[3]);
+
+                if (type.equals("Health")) {
+                    items[i] = new HealthPotion(value, price, itemName);
+                } else if (type.equals("Elemental")) {
+                    items[i] = new ElementalPotion(value, price, itemName);
+                }
+            }
+
+            data = reader.readLine();
+
+            // No homebase monsters
+            if (data == null) {
+                Player player = new Player(name, monsters, gold, items);
+                Homebase homebase = new Homebase(player);
+
+                setPLAYER(player);
+                setHOMEBASE(homebase);
+
+                file.close();
+                return;
+            }
+
+            splitData = data.split(";");
+            Monster[] homebaseMonsters = new Monster[splitData.length];
+            for (int i = 0; i < splitData.length; i++) {
+                if (splitData[i].equals("null")) {
+                    continue;
+                }
+
+                String[] monsterData = splitData[i].split(",");
+                String monsterName = monsterData[0];
+                int level = Integer.parseInt(monsterData[1]);
+                double maxHp = Double.parseDouble(monsterData[2]);
+                double currHp = Double.parseDouble(monsterData[3]);
+                double exp = Double.parseDouble(monsterData[4]);
+                Element element = Element.valueOf(monsterData[5]);
+                double attackPower = Double.parseDouble(monsterData[6]);
+                double defense = Double.parseDouble(monsterData[7]);
+                double monsterGold = Double.parseDouble(monsterData[8]);
+
+                homebaseMonsters[i] = new Monster(monsterName, level, maxHp, currHp, exp, element, attackPower,
+                        defense, monsterGold);
+            }
+
+            Player player = new Player(name, monsters, gold, items);
+            Homebase homebase = new Homebase(player, homebaseMonsters);
+
+            setPLAYER(player);
+            setHOMEBASE(homebase);
+
+            file.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        
     }
 
     public static void saveGame(String namaFile) {
-        byte[] bufferData = new byte[1024];
-        String data = PLAYER.toString();
+        String name = PLAYER.getName();
+        double gold = PLAYER.getGold();
+
+        String[] monsters = new String[getPlayerMonsters().length];
+        for (int i = 0; i < getPlayerMonsters().length; i++) {
+            monsters[i] = getPlayerMonster(i).getName() + "," + getPlayerMonster(i).getLevel() + ","
+                    + getPlayerMonster(i).getMaxHp() + "," + getPlayerMonster(i).getCurrHp() + ","
+                    + getPlayerMonster(i).getExp() + "," + getPlayerMonster(i).getElement() + ","
+                    + getPlayerMonster(i).getAttackPower() + "," + getPlayerMonster(i).getDefense() + ","
+                    + getPlayerMonster(i).getGold();
+        }
+
+        String[] items = new String[getPlayerItems().length];
+        for (int i = 0; i < getPlayerItems().length; i++) {
+            if (getPlayerItem(i) == null) {
+                continue;
+            }
+
+            items[i] = getPlayerItem(i).getClass() + getPlayerItem(i).getName() + "," + getPlayerItem(i).getValue()
+                    + ","
+                    + getPlayerItem(i).getPrice();
+        }
+        
+        String[] homebaseMonsters = new String[getHomebaseMonsters().length];
+        for (int i = 0; i < getHomebaseMonsters().length; i++) {
+            homebaseMonsters[i] = getHomebaseMonster(i).getName() + "," + getHomebaseMonster(i).getLevel() + ","
+                    + getHomebaseMonster(i).getMaxHp() + "," + getHomebaseMonster(i).getCurrHp() + ","
+                    + getHomebaseMonster(i).getExp() + "," + getHomebaseMonster(i).getElement() + ","
+                    + getHomebaseMonster(i).getAttackPower() + "," + getHomebaseMonster(i).getDefense() + ","
+                    + getHomebaseMonster(i).getGold();
+        }
+
+        String data = name + ";" + gold + ";";
+        data += "\n";
+        for (String monster : monsters) {
+            data += monster + ";";
+        }
+        data += "\n";
+        for (String item : items) {
+            data += item + ";";
+        }
+        data += "\n";
+        for (String monster : homebaseMonsters) {
+            data += monster + ";";
+        }
 
         try {
             FileWriter writer = new FileWriter(namaFile);
@@ -129,6 +281,10 @@ public class Javamon {
         return null;
     }
 
+    public static Item[] getPlayerItems() {
+        return PLAYER.getItems();
+    }
+
     public static Monster[] getHomebaseMonsters() {
         return HOMEBASE.getMonsters();
     }
@@ -151,7 +307,6 @@ public class Javamon {
         return MONSTERS[index];
     }
 
-    
     public static Monster getMonster(String name) {
         for (Monster monster : MONSTERS) {
             if (monster.getName().equals(name)) {

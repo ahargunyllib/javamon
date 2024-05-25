@@ -18,6 +18,11 @@ public class Homebase extends Place {
         this.player = player;
     }
 
+    public Homebase(Player player, Monster[] monsters) {
+        super(monsters);
+        this.player = player;
+    }
+
     @Override
     public void exit() {
         // TODO: Implement this method

@@ -26,6 +26,21 @@ public class Monster {
         System.out.printf("Monster %s created\n", this);
     }
 
+    public Monster(String name, int level, double maxHp, double currHp, double exp, Element element, double attackPower,
+            double defense, double gold) {
+        this.name = name;
+        this.level = level;
+        this.maxHp = maxHp;
+        this.currHp = currHp;
+        this.exp = exp;
+        this.element = element;
+        this.attackPower = attackPower;
+        this.defense = defense;
+        this.gold = gold;
+
+        System.out.printf("Monster %s created\n", this);
+    }
+
     public void levelUp(int neededExp) {
         int hpPerLevel = 50;
         int expPerLevel = 25;

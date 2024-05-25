@@ -18,6 +18,15 @@ public class Player {
         System.out.printf("Player %s created\n", this);
     }
 
+    public Player(String name, Monster[] monsters, double gold, Item[] items) {
+        this.name = name;
+        this.monsters = monsters;
+        this.gold = gold;
+        this.items = items;
+
+        System.out.printf("Player %s created\n", this);
+    }
+
     public void addMonster(Monster monster) {
         // TODO: Implement this method
     }

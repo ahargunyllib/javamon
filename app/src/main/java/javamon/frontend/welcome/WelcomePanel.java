@@ -8,11 +8,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import javamon.backend.Javamon;
+import javamon.backend.exceptions.NoSaveGameException;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.components.SizedBox;
+import javamon.frontend.homebase.HomebasePanel;
 import javamon.frontend.styles.Typography;
 import javamon.frontend.components.Button;
 
@@ -46,7 +48,7 @@ public class WelcomePanel extends Panel {
         Button exitBtn = new Button("Exit", Typography.BUTTON,
                 exitGame(homeGUI));
         add(exitBtn);
-        
+
         add(Box.createVerticalGlue());
 
     }
@@ -66,7 +68,43 @@ public class WelcomePanel extends Panel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //
+                JDialog dialog = new JDialog(homeGUI.getFrame(), "Load Game", true);
+
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setResizable(false);
+                dialog.getContentPane().setBackground(new Color(9, 9, 11));
+                dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+
+                Label label = new Label("Game loaded!", Typography.BODY);
+
+                Button okBtn = new Button("OK", Typography.BUTTON, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            Javamon.loadGame();
+
+                            HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
+                            homeGUI.addPanel("homebase", homebasePanel);
+                            homeGUI.setPanel("homebase");
+                        } catch (NoSaveGameException e1) {
+                            JOptionPane.showMessageDialog(homeGUI.getFrame(), "No save game found!", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                        dialog.dispose();
+                    }
+                });
+
+                setBorder(new EmptyBorder(16, 16, 16, 16));
+
+                dialog.add(Box.createVerticalGlue());
+                dialog.add(label);
+                dialog.add(Box.createRigidArea(new Dimension(0, 16)));
+                dialog.add(okBtn);
+                dialog.add(Box.createVerticalGlue());
+
+                dialog.setSize(300, 200);
+                dialog.setLocationRelativeTo(homeGUI.getFrame());
+                dialog.setVisible(true);
             }
         };
     }
@@ -167,5 +205,3 @@ public class WelcomePanel extends Panel {
     }
 
 }
-
-
