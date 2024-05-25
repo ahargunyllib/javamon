@@ -2,6 +2,7 @@ package javamon.backend.entity.places;
 
 import java.util.*;
 
+import javamon.backend.Javamon;
 import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.Player;
@@ -19,16 +20,22 @@ public class Homebase extends Place {
     public Homebase(Player player) {
         super(new Monster[0]);
         this.player = player;
+
+        System.out.println("Welcome to Homebase");
     }
 
     public Homebase(Player player, Monster[] monsters) {
         super(monsters);
         this.player = player;
+
+        System.out.println("Homebase with monsters created");
     }
 
     @Override
     public void exit() {
-        // TODO: Implement this method
+        System.out.println("Exiting Homebase");
+
+        Javamon.setPOSITION(null);
     }
 
     public void saveMonster(Monster[] monsters) {
@@ -62,6 +69,8 @@ public class Homebase extends Place {
         
         // Set monsters yang disave ke homebase
         setMonsters(monsters);
+
+        System.out.println("Successfully saved monsters");
     }
 
     public void restoreMonster(Monster[] monsters) {
@@ -105,6 +114,8 @@ public class Homebase extends Place {
             System.out.printf("%s restored\n", monsters[i]);
         }
         player.setMonsters(newPlayerMonsters);
+
+        System.out.println("Successfully restored monsters");
     }
 
     public void levelUp(Monster monster) throws NotEnoughExpException {
@@ -212,7 +223,8 @@ public class Homebase extends Place {
         System.out.printf("%s evolved\n", monster);
     }
 
-    public void buyItem(Map<Item, Integer> items) throws FullInventoryException, NotEnoughGoldException, NoItemException {
+    public void buyItem(Map<Item, Integer> items)
+            throws FullInventoryException, NotEnoughGoldException, NoItemException {
         double playerGold = player.getGold();
 
         int cnt = 0;
@@ -234,7 +246,7 @@ public class Homebase extends Place {
         // Cek apakah inventory player penuh
         if (playerItem + cnt > 10)
             throw new FullInventoryException();
-        
+
         int itemPrice = 0;
         for (Item item : items.keySet()) {
             itemPrice += item.getPrice() * items.get(item);
@@ -261,6 +273,15 @@ public class Homebase extends Place {
 
         // Kurangi gold player
         player.setGold(playerGold - itemPrice);
+        System.out.println("Items bought");
         System.out.printf("Player gold: %f\n", playerGold - itemPrice);
+    }
+    
+    public void goToDungeon(Dungeon dungeon) {
+        System.out.println("Going to Dungeon " + dungeon.getName() + "...");
+    
+        Javamon.setPOSITION(dungeon);
+        
+        dungeon.startWandering();
     }
 }

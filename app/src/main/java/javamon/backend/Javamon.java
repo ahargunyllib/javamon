@@ -7,20 +7,26 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 
+import javamon.backend.entity.BattleArena;
 import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.Player;
 import javamon.backend.entity.items.Item;
 import javamon.backend.entity.items.potions.ElementalPotion;
 import javamon.backend.entity.items.potions.HealthPotion;
+import javamon.backend.entity.places.Dungeon;
 import javamon.backend.entity.places.Homebase;
+import javamon.backend.entity.places.Place;
 import javamon.backend.exceptions.NoSaveGameException;
 
 public class Javamon {
+    public static Place POSITION;
     public static Monster[] MONSTERS;
     public static Player PLAYER;
     public static Homebase HOMEBASE;
     public static Item[] ITEMS;
+    public static Dungeon[] DUNGEONS;
+    public static BattleArena BATTLEARENA = null;
 
     public static void newGame(String name, Monster[] monsters) {
         Player player = new Player(name, monsters, 1000);
@@ -30,6 +36,8 @@ public class Javamon {
         setHOMEBASE(homebase);
 
         System.out.println("New game created for " + name + ".");
+
+        play();
     }
 
     public static void loadGame() throws NoSaveGameException {
@@ -136,7 +144,8 @@ public class Javamon {
             e.printStackTrace();
         }
 
-        
+        System.out.println("Game loaded for " + PLAYER.getName() + ". Saved Game" + files[files.length - 1]);
+        play();
     }
 
     public static void saveGame(String namaFile) {
@@ -195,14 +204,19 @@ public class Javamon {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Game saved for " + PLAYER.getName() + ". Saved Game" + namaFile);
+        exit();
     }
 
-    private void play() {
-        // TODO: Implement this method
+    private static void play() {
+        setPOSITION(getHOMEBASE());
+        System.out.println("Game started.");
     }
 
-    private void exit() {
-        // TODO: Implement this method
+    private static void exit() {
+        setPOSITION(null);
+        System.out.println("Game ended.");
     }
 
     public static void registerMonsters() {
@@ -221,8 +235,9 @@ public class Javamon {
 
             MONSTERS[i] = new Monster(listNama[i], level, hp, exp, element, attackPower,
                     defense, gold);
-            System.out.println(MONSTERS[i].toString() + " created.");
+            System.out.println(MONSTERS[i].getName() + " created.");
         }
+        System.out.println("Monsters registered.");
     }
 
     public static void registerItems() {
@@ -246,7 +261,9 @@ public class Javamon {
             }
 
             ITEMS[i - 1] = new HealthPotion(value, price, listNama[i - 1]);
+            System.out.println(ITEMS[i - 1].getName() + " created.");
         }
+        System.out.println("Items registered.");
     }
 
     public static Monster[] getPlayerMonsters() {
@@ -361,5 +378,25 @@ public class Javamon {
 
     public static void setITEMS(Item[] iTEMS) {
         ITEMS = iTEMS;
+    }
+
+    public static Dungeon[] getDUNGEONS() {
+        return DUNGEONS;
+    }
+
+    public static Place getPOSITION() {
+        return POSITION;
+    }
+
+    public static void setPOSITION(Place pOSITION) {
+        POSITION = pOSITION;
+    }
+
+    public static BattleArena getBATTLEARENA() {
+        return BATTLEARENA;
+    }
+
+    public static void setBATTLEARENA(BattleArena bATTLEARENA) {
+        BATTLEARENA = bATTLEARENA;
     }
 }
