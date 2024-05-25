@@ -6,4 +6,5 @@ public class Colors {
     public static final Color BACKGROUND = new Color(9, 9, 11);
     public static final Color TEXT = new Color(226, 226, 226);
     public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+    public static final Color WELCOME = new Color(105, 103, 103);
 }

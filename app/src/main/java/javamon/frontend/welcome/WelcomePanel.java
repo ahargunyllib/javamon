@@ -15,6 +15,7 @@ import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.components.SizedBox;
 import javamon.frontend.homebase.HomebasePanel;
+import javamon.frontend.styles.Colors;
 import javamon.frontend.styles.Typography;
 import javamon.frontend.components.Button;
 
@@ -25,28 +26,28 @@ public class WelcomePanel extends Panel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         add(Box.createVerticalGlue());
-        Label label = new Label("Welcome to Javamon", Typography.TITLE);
+
+        Label label = new Label("WELCOME TO JAVAMON!", "jua", 32f, 8, Colors.WELCOME, Colors.TEXT);
         add(label);
 
         add(SizedBox.height(16));
 
-        Button newGameBtn = new Button("New Game", Typography.BUTTON, newGame(homeGUI));
+        Button newGameBtn = new Button("New Game", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT, newGame(homeGUI));
         add(newGameBtn);
 
         add(SizedBox.height(8));
 
-        Button loadGameBtn = new Button("Load Game", Typography.BUTTON, loadGame());
-        add(loadGameBtn);
-
-        add(SizedBox.height(8));
-
-        Button saveGameBtn = new Button("Save Game", Typography.BUTTON, saveGame(homeGUI));
+        Button saveGameBtn = new Button("Save Game", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT, saveGame(homeGUI));
         add(saveGameBtn);
 
         add(SizedBox.height(8));
 
-        Button exitBtn = new Button("Exit", Typography.BUTTON,
-                exitGame(homeGUI));
+        Button loadGameBtn = new Button("Load Game", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT, loadGame());
+        add(loadGameBtn);
+
+        add(SizedBox.height(8));
+
+        Button exitBtn = new Button("Exit", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT, exitGame(homeGUI));
         add(exitBtn);
 
         add(Box.createVerticalGlue());
@@ -204,4 +205,11 @@ public class WelcomePanel extends Panel {
         // TODO: Implement this method
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        ImageIcon bgImage = new ImageIcon("assets/images/background/welcome_bg.png");
+        g.drawImage(bgImage.getImage(), 0, 0, getWidth(), getHeight(), null);
+    }
 }
