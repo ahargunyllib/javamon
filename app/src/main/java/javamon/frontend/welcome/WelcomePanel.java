@@ -69,43 +69,49 @@ public class WelcomePanel extends Panel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog dialog = new JDialog(homeGUI.getFrame(), "Load Game", true);
+                try {
+                    Javamon.loadGame();
+                } catch (NoSaveGameException e1) {
+                    JOptionPane.showMessageDialog(null, "No save game found!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
 
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                dialog.setResizable(false);
-                dialog.getContentPane().setBackground(new Color(9, 9, 11));
-                dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+                HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
+                homeGUI.addPanel("homebase", homebasePanel);
+                homeGUI.setPanel("homebase");
 
-                Label label = new Label("Game loaded!", Typography.BODY);
+                // JDialog dialog = new JDialog(homeGUI.getFrame(), "Load Game", true);
 
-                Button okBtn = new Button("OK", Typography.BUTTON, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        try {
-                            Javamon.loadGame();
+                // dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                // dialog.setResizable(false);
+                // dialog.getContentPane().setBackground(new Color(9, 9, 11));
+                // dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
 
-                            HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
-                            homeGUI.addPanel("homebase", homebasePanel);
-                            homeGUI.setPanel("homebase");
-                        } catch (NoSaveGameException e1) {
-                            JOptionPane.showMessageDialog(homeGUI.getFrame(), "No save game found!", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                        dialog.dispose();
-                    }
-                });
+                // Label label = new Label("Game loaded!", Typography.BODY);
 
-                setBorder(new EmptyBorder(16, 16, 16, 16));
+                // Button okBtn = new Button("OK", Typography.BUTTON, new ActionListener() {
+                //     @Override
+                //     public void actionPerformed(ActionEvent e) {
+                //         try {
 
-                dialog.add(Box.createVerticalGlue());
-                dialog.add(label);
-                dialog.add(Box.createRigidArea(new Dimension(0, 16)));
-                dialog.add(okBtn);
-                dialog.add(Box.createVerticalGlue());
+                //         } catch (NoSaveGameException e1) {
+                //             JOptionPane.showMessageDialog(homeGUI.getFrame(), "No save game found!", "Error",
+                //                     JOptionPane.ERROR_MESSAGE);
+                //         }
+                //         dialog.dispose();
+                //     }
+                // });
 
-                dialog.setSize(300, 200);
-                dialog.setLocationRelativeTo(homeGUI.getFrame());
-                dialog.setVisible(true);
+                // setBorder(new EmptyBorder(16, 16, 16, 16));
+
+                // dialog.add(Box.createVerticalGlue());
+                // dialog.add(label);
+                // dialog.add(Box.createRigidArea(new Dimension(0, 16)));
+                // dialog.add(okBtn);
+                // dialog.add(Box.createVerticalGlue());
+
+                // dialog.setSize(300, 200);
+                // dialog.setLocationRelativeTo(homeGUI.getFrame());
+                // dialog.setVisible(true);
             }
         };
     }
@@ -114,44 +120,46 @@ public class WelcomePanel extends Panel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog dialog = new JDialog(homeGUI.getFrame(), "Exit", true);
+                homeGUI.exit();
 
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                dialog.setResizable(false);
-                dialog.getContentPane().setBackground(new Color(9, 9, 11));
-                dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+                // JDialog dialog = new JDialog(homeGUI.getFrame(), "Exit", true);
 
-                Label label = new Label("Are you sure you want to exit?", Typography.BODY);
+                // dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                // dialog.setResizable(false);
+                // dialog.getContentPane().setBackground(new Color(9, 9, 11));
+                // dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
 
-                Button yesBtn = new Button("Yes", Typography.BUTTON, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        homeGUI.exit();
-                    }
-                });
+                // Label label = new Label("Are you sure you want to exit?", Typography.BODY);
 
-                Button noBtn = new Button("No", Typography.BUTTON, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        dialog.dispose();
-                    }
-                });
+                // Button yesBtn = new Button("Yes", Typography.BUTTON, new ActionListener() {
+                // @Override
+                // public void actionPerformed(ActionEvent e) {
 
-                Row buttonPanel = new Row();
-                buttonPanel.add(noBtn);
-                buttonPanel.add(Box.createRigidArea(new Dimension(8, 0)));
-                buttonPanel.add(yesBtn);
+                // }
+                // });
 
-                setBorder(new EmptyBorder(16, 16, 16, 16));
-                dialog.add(Box.createVerticalGlue());
-                dialog.add(label);
-                dialog.add(Box.createRigidArea(new Dimension(0, 16)));
-                dialog.add(buttonPanel);
-                dialog.add(Box.createVerticalGlue());
+                // Button noBtn = new Button("No", Typography.BUTTON, new ActionListener() {
+                // @Override
+                // public void actionPerformed(ActionEvent e) {
+                // dialog.dispose();
+                // }
+                // });
 
-                dialog.setSize(300, 200);
-                dialog.setLocationRelativeTo(homeGUI.getFrame());
-                dialog.setVisible(true);
+                // Row buttonPanel = new Row();
+                // buttonPanel.add(noBtn);
+                // buttonPanel.add(Box.createRigidArea(new Dimension(8, 0)));
+                // buttonPanel.add(yesBtn);
+
+                // setBorder(new EmptyBorder(16, 16, 16, 16));
+                // dialog.add(Box.createVerticalGlue());
+                // dialog.add(label);
+                // dialog.add(Box.createRigidArea(new Dimension(0, 16)));
+                // dialog.add(buttonPanel);
+                // dialog.add(Box.createVerticalGlue());
+
+                // dialog.setSize(300, 200);
+                // dialog.setLocationRelativeTo(homeGUI.getFrame());
+                // dialog.setVisible(true);
             }
 
         };
@@ -167,34 +175,7 @@ public class WelcomePanel extends Panel {
                     return;
                 }
 
-                JDialog dialog = new JDialog(homeGUI.getFrame(), "Save Game", true);
-
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                dialog.setResizable(false);
-                dialog.getContentPane().setBackground(new Color(9, 9, 11));
-                dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
-
-                Label label = new Label("Game saved!", Typography.BODY);
-
-                Button okBtn = new Button("OK", Typography.BUTTON, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Javamon.saveGame(String.format("saves\\%s.txt", (new Date().getTime())));
-                        dialog.dispose();
-                    }
-                });
-
-                setBorder(new EmptyBorder(16, 16, 16, 16));
-
-                dialog.add(Box.createVerticalGlue());
-                dialog.add(label);
-                dialog.add(Box.createRigidArea(new Dimension(0, 16)));
-                dialog.add(okBtn);
-                dialog.add(Box.createVerticalGlue());
-
-                dialog.setSize(300, 200);
-                dialog.setLocationRelativeTo(homeGUI.getFrame());
-                dialog.setVisible(true);
+                Javamon.saveGame(String.format("saves\\%s.txt", (new Date().getTime())));
             }
 
         };
