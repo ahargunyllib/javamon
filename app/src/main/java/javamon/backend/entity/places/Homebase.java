@@ -1,5 +1,7 @@
 package javamon.backend.entity.places;
 
+import java.util.*;
+
 import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.Player;
@@ -7,6 +9,7 @@ import javamon.backend.entity.items.Item;
 import javamon.backend.exceptions.CannotEvolveException;
 import javamon.backend.exceptions.CannotHealException;
 import javamon.backend.exceptions.FullInventoryException;
+import javamon.backend.exceptions.NoItemException;
 import javamon.backend.exceptions.NotEnoughExpException;
 import javamon.backend.exceptions.NotEnoughGoldException;
 
@@ -209,24 +212,50 @@ public class Homebase extends Place {
         System.out.printf("%s evolved\n", monster);
     }
 
-    public void buyItem(Item item) throws FullInventoryException, NotEnoughGoldException {
+    public void buyItem(Map<Item, Integer> items) throws FullInventoryException, NotEnoughGoldException, NoItemException {
         double playerGold = player.getGold();
-        double itemPrice = item.getPrice();
+
+        int cnt = 0;
+        for (Item item : items.keySet()) {
+            cnt++;
+        }
+
+        // Cek apakah ada item yang dibeli
+        if (cnt == 0) {
+            throw new NoItemException();
+        }
+
+        int playerItem = 0;
+        for (Item item : player.getItems()) {
+            if (item != null)
+                playerItem++;
+        }
 
         // Cek apakah inventory player penuh
-        if (player.getItems()[9] != null)
+        if (playerItem + cnt > 10)
             throw new FullInventoryException();
+        
+        int itemPrice = 0;
+        for (Item item : items.keySet()) {
+            itemPrice += item.getPrice() * items.get(item);
+        }
 
         // Cek apakah player punya cukup gold
         if (playerGold < itemPrice)
             throw new NotEnoughGoldException();
 
-        // Tambahkan item ke inventory player
-        for (int i = 0; i < player.getItems().length; i++) {
-            if (player.getItems()[i] == null) {
-                player.getItems()[i] = item;
-                System.out.printf("%s bought\n", item);
-                break;
+        // Tambah item ke inventory player
+        Item[] playerItems = player.getItems();
+        for (Item item : items.keySet()) {
+            int count = items.get(item);
+
+            for (int i = 0; i < count; i++) {
+                for (int j = 0; j < playerItems.length; j++) {
+                    if (playerItems[j] == null) {
+                        playerItems[j] = item;
+                        break;
+                    }
+                }
             }
         }
 
