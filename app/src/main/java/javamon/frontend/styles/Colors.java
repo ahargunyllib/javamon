@@ -7,4 +7,6 @@ public class Colors {
     public static final Color TEXT = new Color(226, 226, 226);
     public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
     public static final Color WELCOME = new Color(105, 103, 103);
+    public static final Color NEWGAME = new Color(76, 146, 87);
+    public static final Color NEWGAME_ACCENT = new Color(149, 211, 158);
 }
