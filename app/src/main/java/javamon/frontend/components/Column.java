@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 
 import javamon.frontend.styles.Colors;
 
-
 public class Column extends JPanel {
     public Column() {
         super();
@@ -13,5 +12,4 @@ public class Column extends JPanel {
         setAlignmentX(CENTER_ALIGNMENT);
         setBackground(Colors.TRANSPARENT);
     }
-    
 }

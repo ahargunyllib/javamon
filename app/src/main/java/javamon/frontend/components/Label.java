@@ -1,32 +1,18 @@
 package javamon.frontend.components;
 
-import java.io.File;
-import java.io.IOException;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import javamon.frontend.styles.Colors;
 import javamon.frontend.styles.Typography;
 
 public class Label extends JLabel {
-    public Label(String text, Font font) {
-        super(text);
-        setHorizontalAlignment(SwingConstants.CENTER);
-        setFont(font);
-        setAlignmentX(CENTER_ALIGNMENT);
-        setForeground(Colors.TEXT);
-        // setBorder(new EmptyBorder(padding*1, padding*2, padding*1, padding*2));
-    }
-
     public Label(String text, String fontName, float fontSize, int padding, Color bgColor, Color fgColor) {
         super(text);
         Font font = null;

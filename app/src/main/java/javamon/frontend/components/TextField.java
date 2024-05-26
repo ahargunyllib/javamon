@@ -12,7 +12,7 @@ public class TextField extends JTextField {
     public TextField() {
         super();
         setHorizontalAlignment(SwingConstants.CENTER);
-        setFont(Typography.INPUT);
+        setFont(new Typography().new Inter("Regular", 20f).getFont());
         setAlignmentX(CENTER_ALIGNMENT);
         setForeground(Colors.BACKGROUND);
         setMaximumSize(new Dimension(200, 30));
