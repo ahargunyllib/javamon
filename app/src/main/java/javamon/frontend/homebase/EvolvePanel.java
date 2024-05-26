@@ -9,7 +9,6 @@ import javamon.backend.Javamon;
 import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
 import javamon.backend.exceptions.GameException;
-import javamon.backend.exceptions.NotEnoughExpException;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Button;
