@@ -49,7 +49,6 @@ public class LevelUpPanel extends Panel {
         add(monsterPanel);
         add(SizedBox.height(8));
         add(levelUpBtn);
-
     }
 
     private ActionListener levelUp(HomeGUI homeGUI, JRadioButton[] monsterButtons) {

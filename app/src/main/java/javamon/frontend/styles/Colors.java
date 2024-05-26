@@ -16,4 +16,10 @@ public class Colors {
     public static final Color LEVELUP_ACCENT = new Color(124, 176, 206);
     public static final Color RESTOREHP = new Color(132, 133, 67);
     public static final Color RESTOREHP_ACCENT = new Color(202, 204, 67);
+    public static final Color SAVE = new Color(99, 47, 131);
+    public static final Color SAVE_ACCENT = new Color(162, 125, 185);
+    public static final Color RESTORE = new Color(109, 194, 163);
+    public static final Color RESTORE_ACCENT = new Color(69, 179, 139);
+    public static final Color EVOLVE = new Color(166, 76, 76);
+    public static final Color EVOLVE_ACCENT = new Color(221, 133, 133);
 }

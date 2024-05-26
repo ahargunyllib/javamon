@@ -1,123 +1,172 @@
 package javamon.frontend.homebase;
 
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
+import java.awt.*;
 import java.awt.event.*;
+
+import javax.swing.*;
 
 import javamon.backend.Javamon;
 import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
-import javamon.backend.exceptions.CannotEvolveException;
+import javamon.backend.exceptions.GameException;
+import javamon.backend.exceptions.NotEnoughExpException;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Button;
+import javamon.frontend.components.Column;
 import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.components.SizedBox;
 import javamon.frontend.styles.Colors;
-import javamon.frontend.styles.Typography;
 
 public class EvolvePanel extends Panel {
     public EvolvePanel(HomeGUI homeGUI) {
         super(homeGUI);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(Colors.EVOLVE);
 
-        Label pageLbl = new Label("Evolve Your Monster!", Typography.TITLE);
+        Row header = new Row();
+
+        Button backBtn = new Button("Back", "Inter-Bold", 16f, Color.WHITE, Color.BLACK, back(homeGUI));
+        Label pageLbl = new Label("Evolve Monster", "jua", 32f, 8, Color.WHITE, Color.BLACK);
+        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Color.WHITE, Color.BLACK);
+        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 32f, 8, Color.WHITE, Color.BLACK);
+        Label chooseElementLabel = new Label("Choose Element", "jua", 32f, 8, Color.WHITE, Color.BLACK);
+        JRadioButton[] monsterButtons = new JRadioButton[Javamon.getPlayerMonsters().length];
+        ButtonGroup monsterGroup = new ButtonGroup();
+        Row monsterPanel = getMonsters(monsterButtons, monsterGroup);
+        JRadioButton[] elementalButtons = new JRadioButton[Element.values().length];
+        ButtonGroup elementalGroup = new ButtonGroup();
+        Row elementalPanel = getElements(elementalButtons, elementalGroup);
+        Button evolveBtn = new Button("Evolve", "Inter-Bold", 16f, Color.WHITE, Color.BLACK,
+                evolve(homeGUI, monsterButtons, elementalButtons));
+
+        header.add(backBtn);
+        header.add(Box.createHorizontalGlue());
+        header.add(goldLbl);
+
+        add(header);
+        add(SizedBox.height(32));
         add(pageLbl);
-
         add(SizedBox.height(8));
-
-        Label usernameLbl = new Label("Username: " + Javamon.getPLAYER().getName(), Typography.BODY);
-        add(usernameLbl);
-
+        add(chooseMonsterLabel);
         add(SizedBox.height(8));
-
-        Label monsterLbl = new Label("Choose a monster to evolve:", Typography.BODY);
-        add(monsterLbl);
-
+        add(monsterPanel);
         add(SizedBox.height(8));
-
-        ButtonGroup monsters = getMonsterColumns();
-
+        add(chooseElementLabel);
         add(SizedBox.height(8));
-
-        Label evolveLbl = new Label("Evolve to:", Typography.BODY);
-        add(evolveLbl);
-
+        add(elementalPanel);
         add(SizedBox.height(8));
-
-        ButtonGroup evolves = getEvolveColumns();
-
-        add(SizedBox.height(8));
-
-        Row buttonPanel = getEvolveBtn(homeGUI, monsters, evolves);
-        add(buttonPanel);
+        add(evolveBtn);
+        add(SizedBox.height(32));
     }
 
-    private ButtonGroup getMonsterColumns() {
-        ButtonGroup monsters = new ButtonGroup();
-        int monsterCount = Javamon.getPlayerMonsters().length;
-        JRadioButton[] monsterColumns = new JRadioButton[monsterCount];
+    private Row getElements(JRadioButton[] elementalButtons, ButtonGroup elementalGroup) {
+        Row elementPanel = new Row();
 
-        for (int i = 0; i < monsterCount; i++) {
-            Monster monster = Javamon.getPlayerMonster(i);
+        Element[] elements = Element.values();
 
-            monsterColumns[i] = new JRadioButton(monster.getName() + " - "
-                    + monster.getElement().toString());
-            monsterColumns[i].setActionCommand(monster.getName());
-            monsterColumns[i].setFont(Typography.BODY);
-            monsterColumns[i].setForeground(Colors.TEXT);
-            monsterColumns[i].setBackground(Colors.BACKGROUND);
-            monsterColumns[i].setAlignmentX(CENTER_ALIGNMENT);
+        int cnt = 0;
+        for (Element element : elements) {
+            ImageIcon icon = new ImageIcon(String.format("assets/images/elemental/%s.jpg", element.toString()));
+            int newWidth = 48;
+            int newHeight = 48;
+            Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
-            monsters.add(monsterColumns[i]);
-            add(monsterColumns[i]);
+            ImageIcon selectedIcon = new ImageIcon(
+                    String.format("assets/images/elemental/%s-Selected.jpg", element.toString()));
+            int newSelectedWidth = 48;
+            int newSelectedHeight = 48;
+            Image scaledSelectedImage = selectedIcon.getImage().getScaledInstance(newSelectedWidth, newSelectedHeight,
+                    Image.SCALE_SMOOTH);
+            ImageIcon resizedSelectedIcon = new ImageIcon(scaledSelectedImage);
+
+            JRadioButton radioButton = new JRadioButton();
+            radioButton.setActionCommand(element.toString());
+            radioButton.setIcon(resizedIcon);
+            radioButton.setSelectedIcon(resizedSelectedIcon);
+            radioButton.setAlignmentX(CENTER_ALIGNMENT);
+
+            Column monsterInfo = new Column();
+            monsterInfo.setBackground(Color.WHITE);
+            monsterInfo.setBorder(BorderFactory.createLineBorder(Colors.EVOLVE_ACCENT, 4));
+
+            Label nameLabel = new Label(element.toString(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
+
+            nameLabel.setAlignmentX(LEFT_ALIGNMENT);
+
+            monsterInfo.add(nameLabel);
+
+            Column monsterColumn = new Column();
+            monsterColumn.setBackground(Colors.EVOLVE_ACCENT);
+
+            monsterColumn.add(SizedBox.height(8));
+            monsterColumn.add(radioButton);
+            monsterColumn.add(SizedBox.height(8));
+            monsterColumn.add(monsterInfo);
+            monsterColumn.add(SizedBox.height(8));
+
+            elementPanel.add(SizedBox.width(32));
+            elementPanel.add(monsterColumn);
+            elementPanel.add(SizedBox.width(32));
+
+            elementalButtons[cnt++] = radioButton;
+
+            elementalGroup.add(radioButton);
         }
-        return monsters;
+
+        return elementPanel;
     }
 
-    private Row getEvolveBtn(HomeGUI homeGUI, ButtonGroup monsters, ButtonGroup evolves) {
-        Row buttonPanel = new Row();
-
-        Button backBtn = new Button("Back", Typography.BUTTON, new ActionListener() {
+    private ActionListener evolve(HomeGUI homeGUI, JRadioButton[] monsterButtons, JRadioButton[] elementalButtons) {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                homeGUI.setPanel("homebase");
-            }
-        });
+                String monsterName = null;
+                for (JRadioButton radioButton : monsterButtons) {
+                    if (radioButton.isSelected()) {
+                        monsterName = radioButton.getActionCommand();
+                        break;
+                    }
+                }
 
-        Button evolveBtn = new Button("Evolve", Typography.BUTTON, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String monsterName = monsters.getSelection().getActionCommand();
+                String elementName = null;
+                for (JRadioButton radioButton : elementalButtons) {
+                    if (radioButton.isSelected()) {
+                        elementName = radioButton.getActionCommand();
+                        break;
+                    }
+                }
+
                 if (monsterName == null) {
                     JOptionPane.showMessageDialog(homeGUI.getFrame(), "Please select a monster", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                String evolveName = evolves.getSelection().getActionCommand();
-                if (evolveName == null) {
+                if (elementName == null) {
                     JOptionPane.showMessageDialog(homeGUI.getFrame(), "Please select an element", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 Monster monster = null;
-                for (int i = 0; i < Javamon.getPlayerMonsters().length; i++) {
+                int monsterCount = Javamon.getPLAYER().getMonsters().length;
+                for (int i = 0; i < monsterCount; i++) {
                     Monster dummyMonster = Javamon.getPlayerMonster(i);
                     if (dummyMonster.getName().equals(monsterName)) {
                         monster = dummyMonster;
                         break;
                     }
                 }
-                Element element = Element.valueOf(evolveName);
+
+                Element element = Element.valueOf(elementName);
+
                 try {
                     Javamon.getHOMEBASE().evolve(monster, element);
-                } catch (CannotEvolveException err) {
+                } catch (GameException err) {
                     JOptionPane.showMessageDialog(homeGUI.getFrame(), err.getMessage(), "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
@@ -125,33 +174,89 @@ public class EvolvePanel extends Panel {
 
                 JOptionPane.showMessageDialog(homeGUI.getFrame(), "Monster evolved!", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
+
+                HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
+                homeGUI.replacePanel("homebase", homebasePanel);
                 homeGUI.setPanel("homebase");
             }
-        });
-
-        buttonPanel.add(backBtn);
-        buttonPanel.add(SizedBox.width(8));
-        buttonPanel.add(evolveBtn);
-        return buttonPanel;
+        };
     }
 
-    private ButtonGroup getEvolveColumns() {
-        ButtonGroup evolves = new ButtonGroup();
-        JRadioButton[] evolveColumns = new JRadioButton[Element.values().length];
-        for (int i = 0; i < Element.values().length; i++) {
-            Element element = Element.values()[i];
+    private Row getMonsters(JRadioButton[] monsterButtons, ButtonGroup monsterGroup) {
+        Row monsterPanel = new Row();
 
-            evolveColumns[i] = new JRadioButton(element.toString());
-            evolveColumns[i].setActionCommand(element.toString());
-            evolveColumns[i].setFont(Typography.BODY);
-            evolveColumns[i].setForeground(Colors.TEXT);
-            evolveColumns[i].setBackground(Colors.BACKGROUND);
-            evolveColumns[i].setAlignmentX(CENTER_ALIGNMENT);
+        Monster[] monsters = Javamon.getPlayerMonsters();
 
-            evolves.add(evolveColumns[i]);
-            add(evolveColumns[i]);
+        int cnt = 0;
+        for (Monster monster : monsters) {
+            ImageIcon icon = new ImageIcon(String.format("assets/images/pokemon/%s.jpg", monster.getName()));
+            int newWidth = 96;
+            int newHeight = 96;
+            Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            ImageIcon resizedIcon = new ImageIcon(scaledImage);
+
+            ImageIcon selectedIcon = new ImageIcon(
+                    String.format("assets/images/pokemon/%s-Selected.jpg", monster.getName()));
+            int newSelectedWidth = 96;
+            int newSelectedHeight = 96;
+            Image scaledSelectedImage = selectedIcon.getImage().getScaledInstance(newSelectedWidth, newSelectedHeight,
+                    Image.SCALE_SMOOTH);
+            ImageIcon resizedSelectedIcon = new ImageIcon(scaledSelectedImage);
+
+            JRadioButton radioButton = new JRadioButton();
+            radioButton.setActionCommand(monster.getName());
+            radioButton.setIcon(resizedIcon);
+            radioButton.setSelectedIcon(resizedSelectedIcon);
+            radioButton.setAlignmentX(CENTER_ALIGNMENT);
+
+            Column monsterInfo = new Column();
+            monsterInfo.setBackground(Color.WHITE);
+            monsterInfo.setBorder(BorderFactory.createLineBorder(Colors.EVOLVE_ACCENT, 4));
+
+            Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
+            Label elementLabel = new Label("Element: " + monster.getElement(), "jua", 16f, 0, Colors.TRANSPARENT,
+                    Color.BLACK);
+            Label levelLabel = new Label("Level: " + monster.getLevel(), "jua", 16f, 0, Colors.TRANSPARENT,
+                    Color.BLACK);
+
+            nameLabel.setAlignmentX(LEFT_ALIGNMENT);
+            elementLabel.setAlignmentX(LEFT_ALIGNMENT);
+            levelLabel.setAlignmentX(LEFT_ALIGNMENT);
+
+            monsterInfo.add(nameLabel);
+            monsterInfo.add(elementLabel);
+            monsterInfo.add(levelLabel);
+
+            Column monsterColumn = new Column();
+            monsterColumn.setBackground(Colors.EVOLVE_ACCENT);
+
+            monsterColumn.add(SizedBox.height(8));
+            monsterColumn.add(radioButton);
+            monsterColumn.add(SizedBox.height(8));
+            monsterColumn.add(monsterInfo);
+            monsterColumn.add(SizedBox.height(8));
+
+            monsterPanel.add(SizedBox.width(32));
+            monsterPanel.add(monsterColumn);
+            monsterPanel.add(SizedBox.width(32));
+
+            monsterButtons[cnt++] = radioButton;
+
+            monsterGroup.add(radioButton);
         }
-        return evolves;
+
+        return monsterPanel;
+    }
+
+    private ActionListener back(HomeGUI homeGUI) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
+                homeGUI.replacePanel("homebase", homebasePanel);
+                homeGUI.setPanel("homebase");
+            }
+        };
     }
 
     @Override
