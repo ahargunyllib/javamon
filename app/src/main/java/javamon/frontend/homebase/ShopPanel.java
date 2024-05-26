@@ -18,7 +18,6 @@ import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.components.SizedBox;
 import javamon.frontend.styles.Colors;
-import javamon.frontend.styles.Typography;
 
 public class ShopPanel extends Panel {
     public ShopPanel(HomeGUI homeGUI) {
