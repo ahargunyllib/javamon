@@ -14,4 +14,6 @@ public class Colors {
     public static final Color Elemental = new Color(77, 63, 100);
     public static final Color LEVELUP = new Color(29, 109, 126);
     public static final Color LEVELUP_ACCENT = new Color(124, 176, 206);
+    public static final Color RESTOREHP = new Color(132, 133, 67);
+    public static final Color RESTOREHP_ACCENT = new Color(202, 204, 67);
 }
