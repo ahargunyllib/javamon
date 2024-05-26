@@ -13,6 +13,4 @@ public abstract class Panel extends JPanel {
         setBorder(new EmptyBorder(16, 16, 16, 16));
         setBackground(Colors.BACKGROUND);
     }
-
-    public abstract void refresh();
 }

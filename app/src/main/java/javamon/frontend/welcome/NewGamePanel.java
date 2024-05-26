@@ -186,10 +186,4 @@ public class NewGamePanel extends Panel {
             }
         };
     }
-
-    @Override
-    public void refresh() {
-        // TODO: Implement this method
-    }
-
 }

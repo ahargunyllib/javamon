@@ -30,7 +30,7 @@ public class HomeGUI {
     }
 
     public void setPanel(String target) {
-        panelMap.get(target).refresh();
+        panelMap.get(target);
         cardLayout.show(panel, target);
     }
 

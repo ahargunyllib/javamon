@@ -170,10 +170,4 @@ public class SaveMonsterPanel extends Panel {
             }
         };
     }
-
-    @Override
-    public void refresh() {
-        // TODO Auto-generated method stub
-
-    }
 }

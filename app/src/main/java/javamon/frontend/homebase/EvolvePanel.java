@@ -257,10 +257,4 @@ public class EvolvePanel extends Panel {
             }
         };
     }
-
-    @Override
-    public void refresh() {
-        // TODO Auto-generated method stub
-
-    }
 }

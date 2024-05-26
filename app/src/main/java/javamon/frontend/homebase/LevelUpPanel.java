@@ -173,10 +173,4 @@ public class LevelUpPanel extends Panel {
             }
         };
     }
-
-    @Override
-    public void refresh() {
-        // TODO Auto-generated method stub
-
-    }
 }

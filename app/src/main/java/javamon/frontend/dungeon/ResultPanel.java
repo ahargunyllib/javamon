@@ -44,11 +44,6 @@ public class ResultPanel extends Panel {
             }
         }).start();
     }
-
-    @Override
-    public void refresh() {
-        // TODO Auto-generated method stub
-    }
     
     @Override
     protected void paintComponent(Graphics g) {

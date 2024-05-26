@@ -62,12 +62,6 @@ public class WanderingPanel extends Panel {
     }
 
     @Override
-    public void refresh() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 

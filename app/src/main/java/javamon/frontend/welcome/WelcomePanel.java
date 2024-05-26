@@ -182,11 +182,6 @@ public class WelcomePanel extends Panel {
     }
 
     @Override
-    public void refresh() {
-        // TODO: Implement this method
-    }
-
-    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
