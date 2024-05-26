@@ -9,6 +9,7 @@ import javamon.backend.Javamon;
 import javamon.backend.entity.BattleArena;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.items.Item;
+import javamon.backend.entity.places.Dungeon;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Button;
@@ -27,17 +28,17 @@ public class BattleArenaPanel extends Panel {
         Monster playerMonster = battleArena.getPlayerMonster();
         Monster wildMonster = battleArena.getWildMonster();
 
-        Label battleLabel = new Label("Battle Arena", "jua", 32f, 8, Colors.TRANSPARENT,
-                Color.BLACK);
+        Label battleLabel = new Label("Battle Arena", "jua", 32f, 8, Colors.WELCOME,
+                Color.WHITE);
 
         Label playerMonsterHpLabel = new Label(
                 String.format("%s HP: %.0f/%.0f", playerMonster.getName(), playerMonster.getCurrHp(),
                         playerMonster.getMaxHp()),
-                "jua", 24f, 8, Colors.TRANSPARENT, Color.BLACK);
+                "jua", 24f, 8, Colors.WELCOME, Color.WHITE);
         Label wildMonsterHpLabel = new Label(
                 String.format("%s HP: %.0f/%.0f", wildMonster.getName(), wildMonster.getCurrHp(),
                         wildMonster.getMaxHp()),
-                "jua", 24f, 8, Colors.TRANSPARENT, Color.BLACK);
+                "jua", 24f, 8, Colors.WELCOME, Color.WHITE);
 
         Row monstersHpRow = new Row();
         monstersHpRow.add(Box.createHorizontalGlue());
@@ -81,8 +82,8 @@ public class BattleArenaPanel extends Panel {
         itemsComboBox.setMaximumSize(new Dimension(200, 30));
         itemsComboBox.setSize(new Dimension(200, 30));
 
-        Label turnLabel = new Label("It's your turn", "jua", 24f, 8, Colors.TRANSPARENT, Color.BLACK);
-        turnLabel.setForeground(Color.BLUE);
+        Label turnLabel = new Label("It's your turn", "jua", 24f, 8, Colors.WELCOME, Color.WHITE);
+        turnLabel.setForeground(Color.WHITE);
 
         Button attackButton = new Button("Attack", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT,
                 attack(battleArena, turnLabel, playerMonsterHpLabel, wildMonsterHpLabel));
@@ -174,7 +175,7 @@ public class BattleArenaPanel extends Panel {
                 battleArena.specialAttack(battleArena.getPlayerMonster(), battleArena.getWildMonster());
 
                 label.setText("You attack with special attack.");
-                label.setForeground(Color.BLUE);
+                label.setForeground(Color.WHITE);
 
                 Monster wildMonster = battleArena.getWildMonster();
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
@@ -232,7 +233,7 @@ public class BattleArenaPanel extends Panel {
                 battleArena.elementalAttack(battleArena.getPlayerMonster(), battleArena.getWildMonster());
 
                 label.setText("You attack with elemental attack.");
-                label.setForeground(Color.BLUE);
+                label.setForeground(Color.WHITE);
 
                 Monster wildMonster = battleArena.getWildMonster();
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
@@ -288,7 +289,7 @@ public class BattleArenaPanel extends Panel {
                 battleArena.basicAttack(battleArena.getPlayerMonster(), battleArena.getWildMonster());
 
                 label.setText("You attack with basic attack.");
-                label.setForeground(Color.BLUE);
+                label.setForeground(Color.WHITE);
 
                 Monster wildMonster = battleArena.getWildMonster();
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
@@ -341,7 +342,8 @@ public class BattleArenaPanel extends Panel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        ImageIcon bgImage = new ImageIcon("assets/images/background/welcome_bg.png");
+        ImageIcon bgImage = new ImageIcon(
+                String.format("assets/images/background/%s.jpg", ((Dungeon) Javamon.getPOSITION()).getName()));
         g.drawImage(bgImage.getImage(), 0, 0, getWidth(), getHeight(), null);
     }
 }
