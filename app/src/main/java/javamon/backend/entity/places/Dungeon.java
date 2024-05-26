@@ -3,6 +3,7 @@ package javamon.backend.entity.places;
 import javamon.backend.Javamon;
 import javamon.backend.entity.BattleArena;
 import javamon.backend.entity.Monster;
+import javamon.backend.exceptions.NoMonsterException;
 
 public class Dungeon extends Place {
     private String name;
@@ -19,45 +20,38 @@ public class Dungeon extends Place {
         Javamon.setPOSITION(Javamon.getHOMEBASE());
     }
 
-    public void startWandering() {
-        System.out.println("Wandering in " + name);
-        
-        Monster[] monsters = getMonsters();
-        for (Monster monster : monsters) {
-            System.out.println("Encountered " + monster.getName());
+    public Monster[] startWandering() throws NoMonsterException {
+        Monster[] wildMonsters = getMonsters();
+        Monster wildMonster = null;
 
-            int playerMonsters = 0;
-            Monster[] playerMonstersArray = Javamon.getPlayerMonsters();
-            for (Monster playerMonster : playerMonstersArray) {
-                if (playerMonster.getCurrHp() > 0) {
-                    playerMonsters++;
-                }
+        int cnt = 0;
+        do {
+            if (cnt > wildMonsters.length) {
+                throw new NoMonsterException();
             }
 
-            if (playerMonsters == 0) {
-                System.out.println("Player loses all monsters, exiting dungeon");
-                exit();
-                break;
+            wildMonster = wildMonsters[(int) (Math.random() * wildMonsters.length)];
+            cnt++;
+
+
+        } while (wildMonster.getCurrHp() <= 0);
+
+        Monster[] playerMonsters = Javamon.getPlayerMonsters();
+        Monster playerMonster = null;
+
+        cnt = 0;
+        do {
+            if (cnt > playerMonsters.length) {
+                throw new NoMonsterException();
             }
 
-            int playerMonsterIndex = (int) Math.random() * 100 % 3;
-            Monster playerMonster = Javamon.getPlayerMonster(playerMonsterIndex);
+            playerMonster = playerMonsters[(int) (Math.random() * playerMonsters.length)];
+            cnt++;
+            
+        } while (playerMonster.getCurrHp() <= 0);
 
-            System.out.println("Player monster: " + playerMonster.getName());
 
-            BattleArena battleArena = new BattleArena(playerMonster, monster);
-            Javamon.setBATTLEARENA(battleArena);
-            battleArena.battle();
-
-            if (battleArena.getWinner() == monster) {
-                playerMonsters--;
-                System.out.println("Player loses " + playerMonster.getName());
-            } 
-
-        }
-
-        System.out.println("Wandering in " + name + " finished");
-        exit();
+        return new Monster[] { playerMonster, wildMonster };
     }
 
     @Override

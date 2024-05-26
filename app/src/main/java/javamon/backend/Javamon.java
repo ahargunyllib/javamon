@@ -43,12 +43,12 @@ public class Javamon {
     public static void loadGame() throws NoSaveGameException {
         File directory = new File("saves");
         File[] files = directory.listFiles();
-        if (files == null) 
+        if (files == null)
             throw new NoSaveGameException();
-        
+
         try {
             FileReader file = new FileReader(files[files.length - 1]);
-            
+
             BufferedReader reader = new BufferedReader(file);
             String data = reader.readLine();
             String[] splitData = data.split(";");
@@ -171,7 +171,7 @@ public class Javamon {
                     + ","
                     + getPlayerItem(i).getPrice();
         }
-        
+
         String[] homebaseMonsters = new String[getHomebaseMonsters().length];
         for (int i = 0; i < getHomebaseMonsters().length; i++) {
             homebaseMonsters[i] = getHomebaseMonster(i).getName() + "," + getHomebaseMonster(i).getLevel() + ","
@@ -226,12 +226,36 @@ public class Javamon {
 
         for (int i = 0; i < MONSTERS.length; i++) {
             int level = (int) (Math.random() * 10);
+            while (level <= 0) {
+                level = (int) (Math.random() * 10);
+            }
+
             int hp = (int) (Math.random() * 100 * level * 0.5);
+            while (hp <= 0) {
+                hp = (int) (Math.random() * 100 * level * 0.5);
+            }
+
             int exp = (int) (Math.random() * 50 * level * 0.5);
+            while (exp <= 0) {
+                exp = (int) (Math.random() * 50 * level * 0.5);
+            }
+
             Element element = Element.values()[(int) (Math.random() * Element.values().length)];
+
             int attackPower = (int) (Math.random() * 30 * level * 0.5);
+            while (attackPower <= 0) {
+                attackPower = (int) (Math.random() * 30 * level * 0.5);
+            }
+
             int defense = (int) (Math.random() * 30 * level * 0.5);
+            while (defense <= 0) {
+                defense = (int) (Math.random() * 30 * level * 0.5);
+            }
+
             int gold = (int) (Math.random() * 100 * level * 0.5);
+            while (gold <= 0) {
+                gold = (int) (Math.random() * 100 * level * 0.5);
+            }
 
             MONSTERS[i] = new Monster(listNama[i], level, hp, exp, element, attackPower,
                     defense, gold);
@@ -264,6 +288,25 @@ public class Javamon {
             System.out.println(ITEMS[i - 1].getName() + " created.");
         }
         System.out.println("Items registered.");
+    }
+
+    public static void registerDungeons() {
+        DUNGEONS = new Dungeon[3];
+        String[] listNama = { "Volcanic Cave", "Frozen Terrain", "Desert" };
+        String[][] listMonster = { { "Charmander", "Geodude", "Jigglypuff", "Mew" },
+                { "Snorlax", "Squirtle", "Magnemite", "Mewtwo" }, { "Bulbasaur", "Psyduck", "Eevee", "Pikachu" } };
+
+        for (int i = 0; i < DUNGEONS.length; i++) {
+            Monster[] monsters = new Monster[listMonster[i].length];
+            for (int j = 0; j < monsters.length; j++) {
+                monsters[j] = getMonster(listMonster[i][j]);
+            }
+
+            DUNGEONS[i] = new Dungeon(monsters, listNama[i]);
+            System.out.println(DUNGEONS[i].getName() + " created.");
+        }
+
+        System.out.println("Dungeons registered.");
     }
 
     public static Monster[] getPlayerMonsters() {

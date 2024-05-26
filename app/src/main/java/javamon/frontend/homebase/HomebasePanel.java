@@ -15,6 +15,7 @@ import javamon.frontend.components.Column;
 import javamon.frontend.components.Label;
 import javamon.frontend.components.Row;
 import javamon.frontend.components.SizedBox;
+import javamon.frontend.dungeon.MapPanel;
 
 public class HomebasePanel extends Panel {
     public HomebasePanel(HomeGUI homeGUI) {
@@ -123,7 +124,9 @@ public class HomebasePanel extends Panel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                homeGUI.setPanel("welcome");
+                MapPanel mapPanel = new MapPanel(homeGUI);
+                homeGUI.addPanel("map", mapPanel);
+                homeGUI.setPanel("map");
             }
         };
     }

@@ -9,7 +9,7 @@ public class BattleArena implements Action {
     private Monster wildMonster;
     private Monster winner;
     private ElementalPotion elementalPotion = null;
- 
+
     public BattleArena(Monster playerMonster, Monster wildMonster) {
         this.playerMonster = playerMonster;
         this.wildMonster = wildMonster;
@@ -38,7 +38,7 @@ public class BattleArena implements Action {
         } else {
             System.out.println("Player wins");
             winner = playerMonster;
-            
+
             // Add gold to player
             double gold = playerMonster.getGold();
             double playerGold = Javamon.getPLAYER().getGold();
@@ -48,20 +48,23 @@ public class BattleArena implements Action {
             double exp = playerMonster.getExp();
             double monsterExp = wildMonster.getExp();
             playerMonster.setExp(exp + monsterExp);
-            
+
             Javamon.getPLAYER().addMonster(wildMonster);
         }
     }
 
-    private void wildMonsterTurn() {
+    public String wildMonsterTurn() {
         int choice = (int) (Math.random() * 100) % 3;
 
         if (choice == 0) {
             basicAttack(wildMonster, playerMonster);
+            return "Basic attack";
         } else if (choice == 1) {
             elementalAttack(wildMonster, playerMonster);
+            return "Elemental attack";
         } else {
             specialAttack(wildMonster, playerMonster);
+            return "Special attack";
         }
     }
 
@@ -73,14 +76,17 @@ public class BattleArena implements Action {
     public void basicAttack(Monster from, Monster to) {
         System.out.println(from.getName() + " attacks " + to.getName() + " with basic attack");
         double damage = from.getAttackPower() - to.getDefense();
+        if (damage <= 0)
+            damage = 1;
         to.setCurrHp(to.getCurrHp() - damage);
 
+        System.out.println("Damage: " + damage);
     }
 
     @Override
     public void elementalAttack(Monster from, Monster to) {
         System.out.println(from.getName() + " attacks " + to.getName() + " with elemental attack");
-        
+
         Element[] elements = new Element[] { Element.Api, Element.Angin, Element.Air, Element.Es, Element.Tanah };
 
         /*
@@ -139,14 +145,22 @@ public class BattleArena implements Action {
             if (elementalPotion != null) {
                 damage += elementalPotion.getValue();
             }
+            if (damage <= 0)
+                damage = 1;
             to.setCurrHp(to.getCurrHp() - damage);
+
+            System.out.println("Damage: " + damage);
         } else {
             System.out.println("Elemental attack is not effective");
             double damage = from.getAttackPower() * 0.5 - to.getDefense();
             if (elementalPotion != null) {
                 damage += elementalPotion.getValue();
             }
+            if (damage <= 0)
+                damage = 1;
             to.setCurrHp(to.getCurrHp() - damage);
+
+            System.out.println("Damage: " + damage);
         }
     }
 
@@ -160,9 +174,12 @@ public class BattleArena implements Action {
     public void specialAttack(Monster from, Monster to) {
         System.out.println(from.getName() + " attacks " + to.getName() + " with special attack");
         double damage = from.getAttackPower() * 2 - to.getDefense();
+        if (damage <= 0)
+            damage = 1;
         to.setCurrHp(to.getCurrHp() - damage);
-        
         from.setCurrHp(from.getMaxHp() * 0.95);
+
+        System.out.printf("Damage: %f\n", damage);
     }
 
     @Override
@@ -195,6 +212,14 @@ public class BattleArena implements Action {
             }
         }
 
+    }
+
+    public Monster getPlayerMonster() {
+        return playerMonster;
+    }
+
+    public Monster getWildMonster() {
+        return wildMonster;
     }
 
 }

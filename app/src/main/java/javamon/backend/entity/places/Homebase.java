@@ -11,6 +11,7 @@ import javamon.backend.exceptions.CannotEvolveException;
 import javamon.backend.exceptions.CannotHealException;
 import javamon.backend.exceptions.FullInventoryException;
 import javamon.backend.exceptions.NoItemException;
+import javamon.backend.exceptions.NoMonsterException;
 import javamon.backend.exceptions.NotEnoughExpException;
 import javamon.backend.exceptions.NotEnoughGoldException;
 
@@ -277,7 +278,7 @@ public class Homebase extends Place {
         System.out.printf("Player gold: %f\n", playerGold - itemPrice);
     }
     
-    public void goToDungeon(Dungeon dungeon) {
+    public void goToDungeon(Dungeon dungeon) throws NoMonsterException {
         System.out.println("Going to Dungeon " + dungeon.getName() + "...");
     
         Javamon.setPOSITION(dungeon);
