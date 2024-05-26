@@ -59,7 +59,7 @@ public class ShopPanel extends Panel {
         itemPanel.add(elementalPanel);
         itemPanel.add(Box.createHorizontalGlue());
 
-        Button buyBtn = getBuyBtn(homeGUI, itemToBuy);
+        Button buyBtn = new Button("Buy", "jua", 16f, Colors.SHOP_ACCENT, Color.BLACK, buyItems(homeGUI, itemToBuy));
 
         add(SizedBox.height(8));
         add(header);
@@ -231,11 +231,6 @@ public class ShopPanel extends Panel {
         };
     }
 
-    private Button getBuyBtn(HomeGUI homeGUI, Map<Item, Integer> items) {
-        Button buyBtn = new Button("Buy", "jua", 16f, Colors.SHOP_ACCENT, Color.BLACK, buyItems(homeGUI, items));
-        return buyBtn;
-    }
-
     private ActionListener buyItems(HomeGUI homeGUI, Map<Item, Integer> items) {
         return new ActionListener() {
             @Override
@@ -243,6 +238,8 @@ public class ShopPanel extends Panel {
                 try {
                     Javamon.getHOMEBASE().buyItem(items);
 
+                    HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
+                    homeGUI.addPanel("homebase", homebasePanel);
                     homeGUI.setPanel("homebase");
                 } catch (GameException err) {
                     JOptionPane.showMessageDialog(homeGUI.getFrame(), err.getMessage(), "Error",
