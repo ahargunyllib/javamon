@@ -25,28 +25,32 @@ public class SaveMonsterPanel extends Panel {
 
         Row header = new Row();
 
-        Button backBtn = new Button("Back", "Inter-Bold", 16f, Color.WHITE, Color.BLACK, back(homeGUI));
-        Label pageLbl = new Label("Save Monsters", "jua", 32f, 8, Color.WHITE, Color.BLACK);
-        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Color.WHITE, Color.BLACK);
-        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 32f, 8, Color.WHITE, Color.BLACK);
-        JCheckBox[] monsterButtons = new JCheckBox[Javamon.getPlayerMonsters().length];
-        Row monsterPanel = getMonsters(monsterButtons);
-        Button saveBtn = new Button("Save", "Inter-Bold", 16f, Color.WHITE, Color.BLACK,
-                save(homeGUI, monsterButtons));
+        Button backBtn = new Button("Back", "Inter-Bold", 16f, Colors.SAVE_ACCENT, Color.WHITE, back(homeGUI));
+        Label pageLbl = new Label("Save Monsters", "jua", 32f, 8, Colors.SAVE_ACCENT, Color.WHITE);
+        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Colors.SAVE_ACCENT,
+                Color.WHITE);
 
         header.add(backBtn);
         header.add(Box.createHorizontalGlue());
         header.add(goldLbl);
 
+        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 20f, 8, Colors.SAVE_ACCENT, Color.WHITE);
+        JCheckBox[] monsterButtons = new JCheckBox[Javamon.getPlayerMonsters().length];
+        Row monsterPanel = getMonsters(monsterButtons);
+        Button saveBtn = new Button("Save", "Inter-Bold", 20f, Colors.SAVE_ACCENT, Color.WHITE,
+                save(homeGUI, monsterButtons));
+
+        add(SizedBox.height(8));
         add(header);
-        add(SizedBox.height(32));
+        add(SizedBox.height(16));
         add(pageLbl);
         add(SizedBox.height(8));
         add(chooseMonsterLabel);
         add(SizedBox.height(8));
         add(monsterPanel);
-        add(SizedBox.height(8));
+        add(SizedBox.height(16));
         add(saveBtn);
+        add(Box.createVerticalGlue());
     }
 
     private ActionListener save(HomeGUI homeGUI, JCheckBox[] monsterButtons) {
@@ -59,7 +63,7 @@ public class SaveMonsterPanel extends Panel {
                         count++;
                     }
                 }
-                
+
                 if (count == 0) {
                     JOptionPane.showMessageDialog(homeGUI.getFrame(), "Please select exactly one monster", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -124,14 +128,12 @@ public class SaveMonsterPanel extends Panel {
             checkbox.setAlignmentX(CENTER_ALIGNMENT);
 
             Column monsterInfo = new Column();
-            monsterInfo.setBackground(Color.WHITE);
-            monsterInfo.setBorder(BorderFactory.createLineBorder(Colors.SAVE_ACCENT, 4));
 
-            Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
+            Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.WHITE);
             Label elementLabel = new Label("Element: " + monster.getElement(), "jua", 16f, 0, Colors.TRANSPARENT,
-                    Color.BLACK);
+                    Color.WHITE);
             Label levelLabel = new Label("Level: " + monster.getLevel(), "jua", 16f, 0, Colors.TRANSPARENT,
-                    Color.BLACK);
+                    Color.WHITE);
 
             nameLabel.setAlignmentX(LEFT_ALIGNMENT);
             elementLabel.setAlignmentX(LEFT_ALIGNMENT);

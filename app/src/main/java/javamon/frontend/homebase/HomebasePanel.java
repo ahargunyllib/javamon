@@ -21,57 +21,111 @@ public class HomebasePanel extends Panel {
     public HomebasePanel(HomeGUI homeGUI) {
         super(homeGUI);
 
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Colors.BACKGROUND);
 
-        Column topSidePanel = getTopSidePanel();
-        Row bottomSidePanel = getBottomSidePanel(homeGUI);
-        Column rightSidePanel = getRightSidePanel(homeGUI);
-        Column leftSidePanel = getLeftSidePanel(homeGUI);
-        Row centerSidePanel = getCenterSidePanel();
+        Button backBtn = new Button("Back", "Inter-Bold", 20f, Colors.WELCOME, Color.WHITE, back());
+        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Colors.WELCOME, Color.WHITE);
+        Label label = new Label("Homebase", "jua", 32f, 8, Colors.WELCOME, Color.WHITE);
+        Label usernameLbl = new Label("Username: " + Javamon.getPLAYER().getName(), "jua", 20f, 8, Colors.WELCOME, Color.WHITE);
+        
+        Row header = new Row();
+        header.add(backBtn);
+        header.add(Box.createHorizontalGlue());
+        header.add(goldLbl);
 
-        add(topSidePanel, BorderLayout.NORTH);
-        add(rightSidePanel, BorderLayout.EAST);
-        add(leftSidePanel, BorderLayout.WEST);
-        add(bottomSidePanel, BorderLayout.SOUTH);
-        add(centerSidePanel, BorderLayout.CENTER);
+        Row centerRow = new Row();
+        Button shopBtn = new Button("Shop", "Inter-Bold", 20f, Colors.WELCOME, Color.WHITE, goToShop(homeGUI));
+        Button dungeonBtn = new Button("Dungeon", "Inter-Bold", 20f, Colors.WELCOME, Color.WHITE,
+                goToDungeon(homeGUI));
+
+        shopBtn.setSize(150, 50);
+        shopBtn.setPreferredSize(new Dimension(150, 50));
+        shopBtn.setMaximumSize(new Dimension(150, 50));
+        shopBtn.setMinimumSize(new Dimension(150, 50));  
+        dungeonBtn.setSize(150, 50);
+        dungeonBtn.setPreferredSize(new Dimension(150, 50));
+        dungeonBtn.setMaximumSize(new Dimension(150, 50));
+        dungeonBtn.setMinimumSize(new Dimension(150, 50));
+
+        Row monstersPanel = getMonsters();
+
+        centerRow.add(shopBtn);
+        centerRow.add(Box.createHorizontalGlue());
+        centerRow.add(monstersPanel);
+        centerRow.add(Box.createHorizontalGlue());
+        centerRow.add(dungeonBtn);
+
+        Button restoreHpBtn = new Button("Restore Hp", "Inter-Bold", 16f, Colors.WELCOME, Color.WHITE, restoreHp(homeGUI));
+        Button evolveBtn = new Button("Evolve", "Inter-Bold", 16f, Colors.WELCOME, Color.WHITE, evolve(homeGUI));
+        Button levelUpBtn = new Button("Level Up", "Inter-Bold", 16f, Colors.WELCOME, Color.WHITE, levelUp(homeGUI));
+        Button saveMonsterBtn = new Button("Save Monster", "Inter-Bold", 16f, Colors.WELCOME, Color.WHITE, saveMonster(homeGUI));
+        Button restoreMonsterBtn = new Button("Restore Monster", "Inter-Bold", 16f, Colors.WELCOME, Color.WHITE, restoreMonster(homeGUI));
+
+        Row buttonRow = new Row();
+        buttonRow.add(Box.createHorizontalGlue());
+        buttonRow.add(restoreHpBtn);
+        buttonRow.add(SizedBox.width(8));
+        buttonRow.add(evolveBtn);
+        buttonRow.add(SizedBox.width(8));
+        buttonRow.add(levelUpBtn);
+        buttonRow.add(SizedBox.width(8));
+        buttonRow.add(saveMonsterBtn);
+        buttonRow.add(SizedBox.width(8));
+        buttonRow.add(restoreMonsterBtn);
+        buttonRow.add(Box.createHorizontalGlue());
+
+        add(SizedBox.height(8));
+        add(header);
+        add(SizedBox.height(16));
+        add(label);
+        add(SizedBox.height(8));
+        add(usernameLbl);
+        add(Box.createVerticalGlue());
+        add(centerRow);
+        add(SizedBox.height(16));
+        add(buttonRow);
+        add(Box.createVerticalGlue());
     }
+    
+    private Row getMonsters() {
+        Row monsterPanel = new Row();
 
-    private Row getCenterSidePanel() {
-        int monsterCount = Javamon.getPLAYER().getMonsters().length;
-        Column[] monstersPanel = new Column[monsterCount];
-        for (int i = 0; i < monsterCount; i++) {
-            Monster monster = Javamon.getPlayerMonster(i);
+        Monster[] monsters = Javamon.getPlayerMonsters();
 
+        for (Monster monster : monsters) {
             ImageIcon icon = new ImageIcon(String.format("assets/images/pokemon/%s.jpg", monster.getName()));
-            int newWidth = 96; 
-            int newHeight = 96; 
+            int newWidth = 96;
+            int newHeight = 96;
             Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
             ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
             JLabel iconLabel = new JLabel(resizedIcon);
-            Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
+            Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.WHITE);
             Label elementLabel = new Label("Element: " + monster.getElement(), "jua", 16f, 0, Colors.TRANSPARENT,
-                    Color.BLACK);
+                    Color.WHITE);
             Label levelLabel = new Label("Level: " + monster.getLevel(), "jua", 16f, 0, Colors.TRANSPARENT,
-                    Color.BLACK);
+                    Color.WHITE);
             Label hpLabel = new Label("HP: " + monster.getCurrHp() + "/" + monster.getMaxHp(), "jua", 16f, 0,
-                    Colors.TRANSPARENT, Color.BLACK);
-            Label expLabel = new Label("EXP: " + monster.getExp(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
+                    Colors.TRANSPARENT, Color.WHITE);
+            Label expLabel = new Label("EXP: " + monster.getExp(), "jua", 16f, 0, Colors.TRANSPARENT, Color.WHITE);
             Label attackPowerLabel = new Label("Attack Power: " + monster.getAttackPower(), "jua", 16f, 0,
-                    Colors.TRANSPARENT, Color.BLACK);
-            Label defenseLabel = new Label("Defense: " + monster.getDefense(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
+                    Colors.TRANSPARENT, Color.WHITE);
+            Label defenseLabel = new Label("Defense: " + monster.getDefense(), "jua", 16f, 0, Colors.TRANSPARENT,
+                    Color.WHITE);
 
             iconLabel.setAlignmentX(CENTER_ALIGNMENT);
             nameLabel.setAlignmentX(CENTER_ALIGNMENT);
             elementLabel.setAlignmentX(CENTER_ALIGNMENT);
             levelLabel.setAlignmentX(CENTER_ALIGNMENT);
-
-            Column monsterColumn = new Column();
-            monsterColumn.setAlignmentX(CENTER_ALIGNMENT);
+            hpLabel.setAlignmentX(CENTER_ALIGNMENT);
+            expLabel.setAlignmentX(CENTER_ALIGNMENT);
+            attackPowerLabel.setAlignmentX(CENTER_ALIGNMENT);
+            defenseLabel.setAlignmentX(CENTER_ALIGNMENT);
 
             Column monsterInfo = new Column();
-            monsterInfo.setBackground(Colors.NEWGAME_ACCENT);
+            monsterInfo.setAlignmentX(CENTER_ALIGNMENT);
+            monsterInfo.setBackground(Colors.WELCOME);
             monsterInfo.add(SizedBox.height(32));
             monsterInfo.add(iconLabel);
             monsterInfo.add(SizedBox.height(8));
@@ -84,40 +138,12 @@ public class HomebasePanel extends Panel {
             monsterInfo.add(defenseLabel);
             monsterInfo.add(SizedBox.height(32));
 
-            Row monsterRow = new Row();
-            monsterRow.add(Box.createHorizontalGlue());
-            monsterRow.add(monsterInfo);
-            monsterRow.add(Box.createHorizontalGlue());
-
-
-            monsterColumn.add(Box.createVerticalGlue());
-            monsterColumn.add(monsterRow);
-            monsterColumn.add(Box.createVerticalGlue());
-
-            monstersPanel[i] = monsterColumn;
+            monsterPanel.add(SizedBox.width(32));
+            monsterPanel.add(monsterInfo);
+            monsterPanel.add(SizedBox.width(32));
         }
 
-        Row centerSidePanel = new Row();
-        centerSidePanel.add(Box.createHorizontalGlue());
-        
-        for (int i = 0; i < monsterCount; i++) {
-            centerSidePanel.add(monstersPanel[i]);
-            if (i != monsterCount - 1)
-                centerSidePanel.add(SizedBox.width(8));
-        }
-
-        centerSidePanel.add(Box.createHorizontalGlue());
-        return centerSidePanel;
-    }
-
-    private Column getRightSidePanel(HomeGUI homeGUI) {
-        Button dungeonBtn = new Button("Dungeon Map", "Inter-Bold", 16f, Color.WHITE, Color.black, goToDungeon(homeGUI));
-
-        Column rightSidePanel = new Column();
-        rightSidePanel.add(Box.createVerticalGlue());
-        rightSidePanel.add(dungeonBtn);
-        rightSidePanel.add(Box.createVerticalGlue());
-        return rightSidePanel;
+        return monsterPanel;
     }
 
     private ActionListener goToDungeon(HomeGUI homeGUI) {
@@ -131,15 +157,6 @@ public class HomebasePanel extends Panel {
         };
     }
 
-    private Column getLeftSidePanel(HomeGUI homeGUI) {
-        Button shopBtn = new Button("Shop", "Inter-Bold", 16f, Color.WHITE, Color.black, goToShop(homeGUI));
-        Column leftSidePanel = new Column();
-        leftSidePanel.add(Box.createVerticalGlue());
-        leftSidePanel.add(shopBtn);
-        leftSidePanel.add(Box.createVerticalGlue());
-        return leftSidePanel;
-    }
-
     private ActionListener goToShop(HomeGUI homeGUI) {
         return new ActionListener() {
             @Override
@@ -151,25 +168,6 @@ public class HomebasePanel extends Panel {
         };
     }
 
-    private Column getTopSidePanel() {
-        Button backBtn = new Button("Back", "Inter-Bold", 16f, Color.WHITE, Color.black, back());
-        
-        Label label = new Label("Homebase", "jua", 32f, 8, Color.WHITE, Color.BLACK);
-        Label usernameLbl = new Label("Username: " + Javamon.getPLAYER().getName(), "jua", 16f, 8, Color.WHITE, Color.BLACK);
-
-        Row buttonRow = new Row();
-        buttonRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        buttonRow.add(backBtn);
-
-        Column topSidePanel = new Column();
-        topSidePanel.add(buttonRow);
-        topSidePanel.add(SizedBox.height(32));
-        topSidePanel.add(label);
-        topSidePanel.add(SizedBox.height(8));
-        topSidePanel.add(usernameLbl);
-        return topSidePanel;
-    }
-
     private ActionListener back() {
         return new ActionListener() {
             @Override
@@ -177,28 +175,6 @@ public class HomebasePanel extends Panel {
                 homeGUI.setPanel("welcome");
             }
         };
-    }
-
-    private Row getBottomSidePanel(HomeGUI homeGUI) {
-        Button restoreHpBtn = new Button("Restore Hp", "Inter-Bold", 16f, Color.WHITE, Color.black, restoreHp(homeGUI));
-        Button evolveBtn = new Button("Evolve", "Inter-Bold", 16f, Color.WHITE, Color.black, evolve(homeGUI));
-        Button levelUpBtn = new Button("Level Up", "Inter-Bold", 16f, Color.WHITE, Color.black, levelUp(homeGUI));
-        Button saveMonsterBtn = new Button("Save Monster", "Inter-Bold", 16f, Color.WHITE, Color.black, saveMonster(homeGUI));
-        Button restoreMonsterBtn = new Button("Restore Monster", "Inter-Bold", 16f, Color.WHITE, Color.black, restoreMonster(homeGUI));
-
-        Row bottomSidePanel = new Row();
-        bottomSidePanel.add(Box.createHorizontalGlue());
-        bottomSidePanel.add(restoreHpBtn);
-        bottomSidePanel.add(SizedBox.width(8));
-        bottomSidePanel.add(evolveBtn);
-        bottomSidePanel.add(SizedBox.width(8));
-        bottomSidePanel.add(levelUpBtn);
-        bottomSidePanel.add(SizedBox.width(8));
-        bottomSidePanel.add(saveMonsterBtn);
-        bottomSidePanel.add(SizedBox.width(8));
-        bottomSidePanel.add(restoreMonsterBtn);
-        bottomSidePanel.add(Box.createHorizontalGlue());
-        return bottomSidePanel;
     }
 
     private ActionListener restoreMonster(HomeGUI homeGUI) {
