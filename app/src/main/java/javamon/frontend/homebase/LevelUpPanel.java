@@ -26,29 +26,33 @@ public class LevelUpPanel extends Panel {
 
         Row header = new Row();
 
-        Button backBtn = new Button("Back", "Inter-Bold", 16f, Color.WHITE, Color.BLACK, back(homeGUI));
-        Label pageLbl = new Label("Level Up", "jua", 32f, 8, Color.WHITE, Color.BLACK);
-        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Color.WHITE, Color.BLACK);
-        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 32f, 8, Color.WHITE, Color.BLACK);
-        JRadioButton[] monsterButtons = new JRadioButton[Javamon.getPlayerMonsters().length];
-        ButtonGroup monsterGroup = new ButtonGroup();
-        Row monsterPanel = getMonsters(monsterButtons, monsterGroup);
-        Button levelUpBtn = new Button("Level Up", "Inter-Bold", 16f, Color.WHITE, Color.BLACK,
-                levelUp(homeGUI, monsterButtons));
-
+        Button backBtn = new Button("Back", "Inter-Bold", 16f, Colors.LEVELUP_ACCENT, Color.WHITE, back(homeGUI));
+        Label pageLbl = new Label("Level Up", "jua", 32f, 8, Colors.LEVELUP_ACCENT, Color.WHITE);
+        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Colors.LEVELUP_ACCENT, Color.WHITE);
+        
         header.add(backBtn);
         header.add(Box.createHorizontalGlue());
         header.add(goldLbl);
 
+        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 20f, 8, Colors.LEVELUP_ACCENT, Color.WHITE);
+        JRadioButton[] monsterButtons = new JRadioButton[Javamon.getPlayerMonsters().length];
+        ButtonGroup monsterGroup = new ButtonGroup();
+        Row monsterPanel = getMonsters(monsterButtons, monsterGroup);
+        Button levelUpBtn = new Button("Level Up", "Inter-Bold", 20f, Colors.LEVELUP_ACCENT, Color.WHITE,
+                levelUp(homeGUI, monsterButtons));
+
+
+                add(SizedBox.height(8));
         add(header);
-        add(SizedBox.height(32));
+        add(SizedBox.height(16));
         add(pageLbl);
         add(SizedBox.height(8));
         add(chooseMonsterLabel);
         add(SizedBox.height(8));
         add(monsterPanel);
-        add(SizedBox.height(8));
+        add(SizedBox.height(16));
         add(levelUpBtn);
+        add(Box.createVerticalGlue());
     }
 
     private ActionListener levelUp(HomeGUI homeGUI, JRadioButton[] monsterButtons) {
@@ -125,14 +129,12 @@ public class LevelUpPanel extends Panel {
             radioButton.setAlignmentX(CENTER_ALIGNMENT);
 
             Column monsterInfo = new Column();
-            monsterInfo.setBackground(Color.WHITE);
-            monsterInfo.setBorder(BorderFactory.createLineBorder(Colors.LEVELUP_ACCENT, 4));
 
-            Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
+            Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.WHITE);
             Label elementLabel = new Label("Element: " + monster.getElement(), "jua", 16f, 0, Colors.TRANSPARENT,
-                    Color.BLACK);
+                    Color.WHITE);
             Label levelLabel = new Label("Level: " + monster.getLevel(), "jua", 16f, 0, Colors.TRANSPARENT,
-                    Color.BLACK);
+                    Color.WHITE);
 
             nameLabel.setAlignmentX(LEFT_ALIGNMENT);
             elementLabel.setAlignmentX(LEFT_ALIGNMENT);
