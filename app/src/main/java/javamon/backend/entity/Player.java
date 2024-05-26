@@ -1,7 +1,6 @@
 package javamon.backend.entity;
 
 import javamon.backend.entity.items.Item;
-import javamon.backend.entity.places.Place;
 
 public class Player {
     private String name;
@@ -28,11 +27,15 @@ public class Player {
     }
 
     public void addMonster(Monster monster) {
-        // TODO: Implement this method
-    }
+        Monster[] newMonsters = new Monster[monsters.length + 1];
+        for (int i = 0; i < monsters.length; i++) {
+            newMonsters[i] = monsters[i];
+        }
+        newMonsters[monsters.length] = monster;
 
-    public void enterPlace(Place place) {
-        // TODO: Implement this method
+        monsters = newMonsters;
+
+        System.out.println("Monster added to player");
     }
 
     @Override

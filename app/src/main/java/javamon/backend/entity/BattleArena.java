@@ -38,6 +38,18 @@ public class BattleArena implements Action {
         } else {
             System.out.println("Player wins");
             winner = playerMonster;
+            
+            // Add gold to player
+            double gold = playerMonster.getGold();
+            double playerGold = Javamon.getPLAYER().getGold();
+            Javamon.getPLAYER().setGold(playerGold + gold);
+
+            // Add exp to monster
+            double exp = playerMonster.getExp();
+            double monsterExp = wildMonster.getExp();
+            playerMonster.setExp(exp + monsterExp);
+            
+            Javamon.getPLAYER().addMonster(wildMonster);
         }
     }
 
