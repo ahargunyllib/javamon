@@ -25,14 +25,14 @@ public class NewGamePanel extends Panel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Colors.NEWGAME);
 
-        Label nameLabel = new Label("USERNAME:", "jua", 16f, 0, Colors.TRANSPARENT, Color.WHITE);
+        Label nameLabel = new Label("Input Your Username:", "jua", 32f, 8, Colors.NEWGAME_ACCENT, Color.BLACK);
         TextField nameField = new TextField();
-        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 32f, 8, Color.WHITE, Color.BLACK);
+        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 32f, 8, Colors.NEWGAME_ACCENT, Color.BLACK);
         JCheckBox[] monsterButtons = new JCheckBox[5];
         Row monsterPanel = getMonsters(monsterButtons);
-        Button backBtn = new Button("Back", "Inter-Bold", 16f, Color.WHITE, Color.black, cancelGame(homeGUI));
+        Button backBtn = new Button("Back", "Inter-Bold", 20f, Colors.NEWGAME_ACCENT, Color.BLACK, cancelGame(homeGUI));
         Row buttonRow = new Row();
-        Button createBtn = new Button("START", "Inter-Bold", 16f, Color.WHITE, Color.black,
+        Button createBtn = new Button("Start", "Inter-Bold", 32f, Colors.NEWGAME_ACCENT, Color.BLACK,
                 createGame(homeGUI, nameField, monsterButtons));
 
         buttonRow.setMaximumSize(new Dimension(Integer.MAX_VALUE, getHeight()));
@@ -40,10 +40,11 @@ public class NewGamePanel extends Panel {
 
         add(SizedBox.height(8));
         add(buttonRow);
-        add(SizedBox.height(32));
+        add(SizedBox.height(16));
         add(nameLabel);
+        add(SizedBox.height(8));
         add(nameField);
-        add(SizedBox.height(32));
+        add(Box.createVerticalGlue());
         add(chooseMonsterLabel);
         add(SizedBox.height(16));
         add(monsterPanel);
@@ -88,8 +89,6 @@ public class NewGamePanel extends Panel {
             checkBox.setAlignmentX(CENTER_ALIGNMENT);
 
             Column monsterInfo = new Column();
-            monsterInfo.setBackground(Color.WHITE);
-            monsterInfo.setBorder(BorderFactory.createLineBorder(Colors.NEWGAME_ACCENT, 4));
 
             Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
             Label elementLabel = new Label("Element: " + monster.getElement(), "jua", 16f, 0, Colors.TRANSPARENT,
