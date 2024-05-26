@@ -145,6 +145,7 @@ public class BattleArenaPanel extends Panel {
                         break;
                     }
                 }
+                itemsComboBox.removeItem(itemName);
 
                 battleArena.useItem(item);
             }
