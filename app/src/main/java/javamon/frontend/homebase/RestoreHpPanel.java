@@ -26,29 +26,34 @@ public class RestoreHpPanel extends Panel {
 
         Row header = new Row();
 
-        Button backBtn = new Button("Back", "Inter-Bold", 16f, Color.WHITE, Color.BLACK, back(homeGUI));
-        Label pageLbl = new Label("Restore HP", "jua", 32f, 8, Color.WHITE, Color.BLACK);
-        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Color.WHITE, Color.BLACK);
-        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 32f, 8, Color.WHITE, Color.BLACK);
-        JRadioButton[] monsterButtons = new JRadioButton[Javamon.getPlayerMonsters().length];
-        ButtonGroup monsterGroup = new ButtonGroup();
-        Row monsterPanel = getMonsters(monsterButtons, monsterGroup);
-        Button restoreHpBtn = new Button("Restore HP", "Inter-Bold", 16f, Color.WHITE, Color.BLACK,
-                restoreHp(homeGUI, monsterButtons));
+        Button backBtn = new Button("Back", "Inter-Bold", 16f, Colors.RESTOREHP_ACCENT, Color.BLACK, back(homeGUI));
+        Label pageLbl = new Label("Restore HP", "jua", 32f, 8, Colors.RESTOREHP_ACCENT, Color.BLACK);
+        Label goldLbl = new Label(Javamon.getPLAYER().getGold() + " gold", "jua", 16f, 8, Colors.RESTOREHP_ACCENT,
+                Color.BLACK);
 
         header.add(backBtn);
         header.add(Box.createHorizontalGlue());
         header.add(goldLbl);
 
+        Label chooseMonsterLabel = new Label("Choose Your Pokemon", "jua", 20f, 8, Colors.RESTOREHP_ACCENT,
+                Color.BLACK);
+        JRadioButton[] monsterButtons = new JRadioButton[Javamon.getPlayerMonsters().length];
+        ButtonGroup monsterGroup = new ButtonGroup();
+        Row monsterPanel = getMonsters(monsterButtons, monsterGroup);
+        Button restoreHpBtn = new Button("Restore HP", "Inter-Bold", 20f, Colors.RESTOREHP_ACCENT, Color.BLACK,
+                restoreHp(homeGUI, monsterButtons));
+
+        add(SizedBox.height(8));
         add(header);
-        add(SizedBox.height(32));
+        add(SizedBox.height(16));
         add(pageLbl);
         add(SizedBox.height(8));
         add(chooseMonsterLabel);
         add(SizedBox.height(8));
         add(monsterPanel);
-        add(SizedBox.height(8));
+        add(SizedBox.height(16));
         add(restoreHpBtn);
+        add(Box.createVerticalGlue());
     }
 
     private Row getMonsters(JRadioButton[] monsterButtons, ButtonGroup monsterGroup) {
@@ -79,8 +84,6 @@ public class RestoreHpPanel extends Panel {
             radioButton.setAlignmentX(CENTER_ALIGNMENT);
 
             Column monsterInfo = new Column();
-            monsterInfo.setBackground(Color.WHITE);
-            monsterInfo.setBorder(BorderFactory.createLineBorder(Colors.LEVELUP_ACCENT, 4));
 
             Label nameLabel = new Label("Name: " + monster.getName(), "jua", 16f, 0, Colors.TRANSPARENT, Color.BLACK);
             Label elementLabel = new Label("Element: " + monster.getElement(), "jua", 16f, 0, Colors.TRANSPARENT,
@@ -98,7 +101,7 @@ public class RestoreHpPanel extends Panel {
             monsterInfo.add(hpLabel);
 
             Column monsterColumn = new Column();
-            monsterColumn.setBackground(Colors.LEVELUP_ACCENT);
+            monsterColumn.setBackground(Colors.RESTOREHP_ACCENT);
 
             monsterColumn.add(SizedBox.height(8));
             monsterColumn.add(radioButton);
@@ -117,7 +120,7 @@ public class RestoreHpPanel extends Panel {
 
         return monsterPanel;
     }
-    
+
     private ActionListener restoreHp(HomeGUI homeGUI, JRadioButton[] monsterButtons) {
         return new ActionListener() {
             @Override
