@@ -103,25 +103,20 @@ public class BattleArena implements Action {
         isEffective[3][3] = false;
         isEffective[4][4] = false;
 
-        // api bisa ke angin dan angin bisa ke api
-        isEffective[0][1] = true;
-        isEffective[1][0] = true;
+        // api ke es
+        isEffective[0][3] = true;
 
-        // angin bisa ke air dan air bisa ke api
-        isEffective[1][2] = true;
-        isEffective[2][1] = true;
+        // es ke angin
+        isEffective[3][1] = true;
 
-        // air bisa ke es dan es bisa ke air
-        isEffective[2][3] = true;
-        isEffective[3][2] = true;
+        // angin ke tanah
+        isEffective[1][4] = true;
 
-        // es bisa ke tanah dan tanah bisa ke es
-        isEffective[3][4] = true;
-        isEffective[4][3] = true;
+        // tanah ke air
+        isEffective[4][2] = true;
 
-        // tanah bisa ke api dan api bisa ke tanah
-        isEffective[4][0] = true;
-        isEffective[0][4] = true;
+        // air ke api
+        isEffective[2][0] = true;
 
         Element fromElement = from.getElement();
         Element toElement = to.getElement();
