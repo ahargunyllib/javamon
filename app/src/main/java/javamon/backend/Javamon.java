@@ -233,37 +233,32 @@ public class Javamon {
                 "Magnemite", "Eevee", "Snorlax", "Mewtwo", "Mew" };
 
         for (int i = 0; i < MONSTERS.length; i++) {
-            int level = (int) (Math.random() * 10);
-            while (level <= 0) {
-                level = (int) (Math.random() * 10);
-            }
+            int level, hp, exp, attackPower, defense, gold;
+            do {
+                level = (int) (Math.random() * 10) + 1;
+            } while (level <= 0);
 
-            int hp = (int) (Math.random() * 100 * level * 0.5);
-            while (hp <= 0) {
+            do {
                 hp = (int) (Math.random() * 100 * level * 0.5);
-            }
+            } while (hp <= 0);
 
-            int exp = (int) (Math.random() * 50 * level * 0.5);
-            while (exp <= 0) {
-                exp = (int) (Math.random() * 50 * level * 0.5);
-            }
+            do {
+                exp = (int) (Math.random() * 100 * level * 0.5);
+            } while (exp <= 0);
 
             Element element = Element.values()[(int) (Math.random() * Element.values().length)];
 
-            int attackPower = (int) (Math.random() * 30 * level * 0.5);
-            while (attackPower <= 0) {
+            do {
                 attackPower = (int) (Math.random() * 30 * level * 0.5);
-            }
+            } while (attackPower <= 0);
 
-            int defense = (int) (Math.random() * 30 * level * 0.5);
-            while (defense <= 0) {
-                defense = (int) (Math.random() * 30 * level * 0.5);
-            }
+            do {
+                defense = (int) (Math.random() * 10 * level * 0.5);
+            } while (defense <= 0);
 
-            int gold = (int) (Math.random() * 100 * level * 0.5);
-            while (gold <= 0) {
+            do {
                 gold = (int) (Math.random() * 100 * level * 0.5);
-            }
+            } while (gold <= 0);
 
             MONSTERS[i] = new Monster(listNama[i], level, hp, exp, element, attackPower,
                     defense, gold);
