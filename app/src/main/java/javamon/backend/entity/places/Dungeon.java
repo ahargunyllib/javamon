@@ -1,7 +1,6 @@
 package javamon.backend.entity.places;
 
 import javamon.backend.Javamon;
-import javamon.backend.entity.BattleArena;
 import javamon.backend.entity.Monster;
 import javamon.backend.exceptions.NoMonsterException;
 

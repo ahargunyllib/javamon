@@ -10,6 +10,7 @@ public class Monster {
     private double attackPower;
     private double defense;
     private double gold;
+    private boolean[] evolved;
 
     public Monster(String name, int level, double maxHp, double exp, Element element, double attackPower,
             double defense, double gold) {
@@ -22,6 +23,7 @@ public class Monster {
         this.attackPower = attackPower;
         this.defense = defense;
         this.gold = gold;
+        this.evolved = new boolean[100];
 
         System.out.printf("Monster %s created\n", this);
     }
@@ -37,6 +39,7 @@ public class Monster {
         this.attackPower = attackPower;
         this.defense = defense;
         this.gold = gold;
+        this.evolved = new boolean[100];
 
         System.out.printf("Monster %s created\n", this);
     }
@@ -154,5 +157,13 @@ public class Monster {
 
     public void setGold(double gold) {
         this.gold = gold;
+    }
+
+    public boolean[] getEvolved() {
+        return evolved;
+    }
+
+    public void setEvolved(int level) {
+        this.evolved[level] = true;
     }
 }

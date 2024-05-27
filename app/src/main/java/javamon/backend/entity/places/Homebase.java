@@ -164,6 +164,12 @@ public class Homebase extends Place {
     }
 
     public void evolve(Monster monster, Element element) throws CannotEvolveException {
+        int level = monster.getLevel();
+        boolean[] evolved = monster.getEvolved();
+        if (evolved[level]) {
+            throw new CannotEvolveException();
+        }
+
         Element[] elements = new Element[] { Element.Api, Element.Angin, Element.Air, Element.Es, Element.Tanah };
 
         /*
@@ -220,6 +226,7 @@ public class Homebase extends Place {
         }
 
         // monster.setName(""); // TODO: set the name of the monster
+        monster.setEvolved(level);
         monster.changeElement(element);
         System.out.printf("%s evolved\n", monster);
     }
