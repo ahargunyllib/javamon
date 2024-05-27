@@ -48,8 +48,8 @@ public class BattleArenaPanel extends Panel {
         monstersHpRow.add(Box.createHorizontalGlue());
 
         ImageIcon playerMonsterIcon = new ImageIcon(
-                String.format("assets/images/pokemon/%s.jpg", playerMonster.getName()));
-        ImageIcon wildMonsterIcon = new ImageIcon(String.format("assets/images/pokemon/%s.jpg", wildMonster.getName()));
+                String.format("assets/images/pokemon/%s-Transparant.png", playerMonster.getName()));
+        ImageIcon wildMonsterIcon = new ImageIcon(String.format("assets/images/pokemon/%s-Transparant.png", wildMonster.getName()));
         int newWidth = 256;
         int newHeight = 256;
         Image scaledPlayerMonsterImage = playerMonsterIcon.getImage().getScaledInstance(newWidth, newHeight,
@@ -196,6 +196,7 @@ public class BattleArenaPanel extends Panel {
                 if (!success) {
                     label.setText("You fail to escape from battle");
                     label.setForeground(Color.WHITE);
+                    return;
                 }
 
                 ResultPanel resultPanel = new ResultPanel(homeGUI,
