@@ -29,6 +29,14 @@ public class Javamon {
     public static Dungeon[] DUNGEONS;
     public static BattleArena BATTLEARENA = null;
 
+    public Javamon() {
+        registerMonsters();
+        registerItems();
+        registerDungeons();
+
+        System.out.println("Javamon created.");
+    }
+
     public static void newGame(String name, Monster[] monsters) {
         Player player = new Player(name, monsters, 1000);
         Homebase homebase = new Homebase(player);

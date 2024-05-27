@@ -16,10 +16,7 @@ public class App {
         frame.setLocationRelativeTo(null); // center the window
         frame.setIconImage(new ImageIcon("assets/images/logo.png").getImage()); // set the window icon
 
-
-        Javamon.registerMonsters(); // register monsters
-        Javamon.registerItems(); // register items
-        Javamon.registerDungeons(); // register dungeons
+        new Javamon(); // create a new Javamon object
         
         HomeGUI homeGUI = new HomeGUI(frame); // create a new HomeGUI object
         homeGUI.setPanel("welcome"); // set the panel to "welcome"
