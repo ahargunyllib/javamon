@@ -150,6 +150,10 @@ public class BattleArenaPanel extends Panel {
                 itemsComboBox.removeItem(itemName);
 
                 label.setText("You use item " + item.getName());
+                playerHpLabel.setText(String.format("%s HP: %.0f/%.0f",
+                        battleArena.getPlayerMonster().getName(),
+                        battleArena.getPlayerMonster().getCurrHp(),
+                        battleArena.getPlayerMonster().getMaxHp()));
                 battleArena.useItem(item);
 
                 new Thread(new Runnable() {

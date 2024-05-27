@@ -200,7 +200,11 @@ public class BattleArena implements Action {
         String[] itemNames = item.getName().split(" ");
 
         if (itemNames[1].equals("Health")) {
-            playerMonster.setCurrHp(playerMonster.getCurrHp() + item.getValue());
+            if (playerMonster.getCurrHp() + item.getValue() > playerMonster.getMaxHp()) {
+                playerMonster.setCurrHp(playerMonster.getMaxHp());
+            } else {
+                playerMonster.setCurrHp(playerMonster.getCurrHp() + item.getValue());
+            }
 
             // remove the item
             Item[] items = Javamon.getPlayerItems();
