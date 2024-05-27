@@ -29,7 +29,7 @@ public class ResultPanel extends Panel {
                 try {
                     Thread.sleep(3000);
 
-                    if (result.contains("defeated") || result.contains("escapes")) {
+                    if (result.contains("defeated")) {
                         WanderingPanel wanderingPanel = new WanderingPanel(homeGUI);
                         homeGUI.addPanel("wandering", wanderingPanel);
                         homeGUI.setPanel("wandering");
