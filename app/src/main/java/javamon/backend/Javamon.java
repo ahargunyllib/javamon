@@ -92,14 +92,13 @@ public class Javamon {
                 }
 
                 String[] itemData = splitData[i].split(",");
-                String type = itemData[0].split(" ")[2];
-                String itemName = itemData[1];
-                int value = Integer.parseInt(itemData[2]);
-                double price = Double.parseDouble(itemData[3]);
+                String itemName = itemData[0];
+                int value = Integer.parseInt(itemData[1]);
+                double price = Double.parseDouble(itemData[2]);
 
-                if (type.equals("Health")) {
+                if (itemName.contains("Health")) {
                     items[i] = new HealthPotion(value, price, itemName);
-                } else if (type.equals("Elemental")) {
+                } else if (itemName.contains("Elemental")) {
                     items[i] = new ElementalPotion(value, price, itemName);
                 }
             }
@@ -176,7 +175,7 @@ public class Javamon {
                 continue;
             }
 
-            items[i] = getPlayerItem(i).getClass() + getPlayerItem(i).getName() + "," + getPlayerItem(i).getValue()
+            items[i] = getPlayerItem(i).getName() + "," + getPlayerItem(i).getValue()
                     + ","
                     + getPlayerItem(i).getPrice();
         }
