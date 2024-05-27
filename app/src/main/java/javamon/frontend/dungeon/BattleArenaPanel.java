@@ -181,6 +181,19 @@ public class BattleArenaPanel extends Panel {
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
                         wildMonster.getCurrHp(), wildMonster.getMaxHp());
                 if (wildMonster.getCurrHp() <= 0) {
+                    // Add gold to player
+                    Monster playerMonster = battleArena.getPlayerMonster();
+                    double gold = playerMonster.getGold();
+                    double playerGold = Javamon.getPLAYER().getGold();
+                    Javamon.getPLAYER().setGold(playerGold + gold);
+
+                    // Add exp to monster
+                    double exp = playerMonster.getExp();
+                    double monsterExp = wildMonster.getExp();
+                    playerMonster.setExp(exp + monsterExp);
+
+                    Javamon.getPLAYER().addMonster(wildMonster);
+                    
                     ResultPanel resultPanel = new ResultPanel(homeGUI,
                             String.format("You defeated %s... lucky", wildMonster.getName()));
                     homeGUI.addPanel("result", resultPanel);
@@ -239,6 +252,19 @@ public class BattleArenaPanel extends Panel {
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
                         wildMonster.getCurrHp(), wildMonster.getMaxHp());
                 if (wildMonster.getCurrHp() <= 0) {
+                    // Add gold to player
+                    Monster playerMonster = battleArena.getPlayerMonster();
+                    double gold = playerMonster.getGold();
+                    double playerGold = Javamon.getPLAYER().getGold();
+                    Javamon.getPLAYER().setGold(playerGold + gold);
+
+                    // Add exp to monster
+                    double exp = playerMonster.getExp();
+                    double monsterExp = wildMonster.getExp();
+                    playerMonster.setExp(exp + monsterExp);
+
+                    Javamon.getPLAYER().addMonster(wildMonster);
+
                     ResultPanel resultPanel = new ResultPanel(homeGUI,
                             String.format("You defeated %s... lucky", wildMonster.getName()));
                     homeGUI.addPanel("result", resultPanel);
@@ -295,6 +321,19 @@ public class BattleArenaPanel extends Panel {
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
                         wildMonster.getCurrHp(), wildMonster.getMaxHp());
                 if (wildMonster.getCurrHp() <= 0) {
+                    // Add gold to player
+                    Monster playerMonster = battleArena.getPlayerMonster();
+                    double gold = playerMonster.getGold();
+                    double playerGold = Javamon.getPLAYER().getGold();
+                    Javamon.getPLAYER().setGold(playerGold + gold);
+
+                    // Add exp to monster
+                    double exp = playerMonster.getExp();
+                    double monsterExp = wildMonster.getExp();
+                    playerMonster.setExp(exp + monsterExp);
+
+                    Javamon.getPLAYER().addMonster(wildMonster);
+
                     ResultPanel resultPanel = new ResultPanel(homeGUI,
                             String.format("You defeated %s... lucky", wildMonster.getName()));
                     homeGUI.addPanel("result", resultPanel);
