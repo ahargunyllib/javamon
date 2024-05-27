@@ -165,13 +165,28 @@ public class BattleArena implements Action {
     }
 
     @Override
-    public void escape() {
+    public boolean escape() {
+        double missRate = 0.3;
+        double random = Math.random();
+        if (random < missRate) {
+            System.out.println("Player fails to escape from battle");
+            return false;
+        }
+
         System.out.println("Player escapes from battle");
         winner = wildMonster;
+        return true;
     }
 
     @Override
-    public void specialAttack(Monster from, Monster to) {
+    public boolean specialAttack(Monster from, Monster to) {
+        double missRate = 0.25;
+        double random = Math.random();
+        if (random < missRate) {
+            System.out.println(from.getName() + " misses the special attack");
+            return false;
+        }        
+
         System.out.println(from.getName() + " attacks " + to.getName() + " with special attack");
         double damage = from.getAttackPower() * 2 - to.getDefense();
         if (damage <= 0)
@@ -180,6 +195,7 @@ public class BattleArena implements Action {
         from.setCurrHp(from.getMaxHp() * 0.95);
 
         System.out.printf("Damage: %f\n", damage);
+        return true;
     }
 
     @Override

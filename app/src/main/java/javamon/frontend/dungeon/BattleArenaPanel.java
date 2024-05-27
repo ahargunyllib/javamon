@@ -97,7 +97,8 @@ public class BattleArenaPanel extends Panel {
                 specialAttack(battleArena, turnLabel, playerMonsterHpLabel, wildMonsterHpLabel));
         specialAttackButton.setPreferredSize(new Dimension(200, 30));
 
-        Button runButton = new Button("Run", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT, run(battleArena));
+        Button runButton = new Button("Run", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT,
+                run(battleArena, turnLabel));
         runButton.setPreferredSize(new Dimension(200, 30));
 
         Button useItemButton = new Button("Use Item", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT,
@@ -153,11 +154,15 @@ public class BattleArenaPanel extends Panel {
         };
     }
 
-    private ActionListener run(BattleArena battleArena) {
+    private ActionListener run(BattleArena battleArena, Label label) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                battleArena.escape();
+                boolean success = battleArena.escape();
+                if (!success) {
+                    label.setText("You fail to escape from battle");
+                    label.setForeground(Color.WHITE);
+                }
 
                 ResultPanel resultPanel = new ResultPanel(homeGUI,
                         Javamon.getPLAYER().getName() + " escapes from battle... what a coward lol");
@@ -172,7 +177,14 @@ public class BattleArenaPanel extends Panel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                battleArena.specialAttack(battleArena.getPlayerMonster(), battleArena.getWildMonster());
+                boolean success = battleArena.specialAttack(battleArena.getPlayerMonster(),
+                        battleArena.getWildMonster());
+
+                if (!success) {
+                    label.setText("You miss the special attack.");
+                    label.setForeground(Color.WHITE);
+                    return;
+                }
 
                 label.setText("You attack with special attack.");
                 label.setForeground(Color.WHITE);
@@ -193,7 +205,7 @@ public class BattleArenaPanel extends Panel {
                     playerMonster.setExp(exp + monsterExp);
 
                     Javamon.getPLAYER().addMonster(wildMonster);
-                    
+
                     ResultPanel resultPanel = new ResultPanel(homeGUI,
                             String.format("You defeated %s... lucky", wildMonster.getName()));
                     homeGUI.addPanel("result", resultPanel);
