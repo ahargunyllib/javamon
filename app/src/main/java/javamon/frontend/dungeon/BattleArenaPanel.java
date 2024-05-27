@@ -102,7 +102,7 @@ public class BattleArenaPanel extends Panel {
         runButton.setPreferredSize(new Dimension(200, 30));
 
         Button useItemButton = new Button("Use Item", "Inter-Bold", 16f, Colors.WELCOME, Colors.TEXT,
-                useItem(battleArena, itemsComboBox));
+                useItem(battleArena, itemsComboBox, turnLabel, playerMonsterHpLabel));
         useItemButton.setPreferredSize(new Dimension(200, 30));
 
         Column playerMonsterColumn = new Column();
@@ -134,7 +134,7 @@ public class BattleArenaPanel extends Panel {
         add(playerMonsterColumn);
     }
 
-    private ActionListener useItem(BattleArena battleArena, JComboBox<String> itemsComboBox) {
+    private ActionListener useItem(BattleArena battleArena, JComboBox<String> itemsComboBox, Label label, Label playerHpLabel) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,7 +149,41 @@ public class BattleArenaPanel extends Panel {
                 }
                 itemsComboBox.removeItem(itemName);
 
+                label.setText("You use item " + item.getName());
                 battleArena.useItem(item);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(3000);
+
+                            String action = battleArena.wildMonsterTurn();
+
+                            Monster playerMonster = battleArena.getPlayerMonster();
+                            Monster wildMonster = battleArena.getWildMonster();
+
+                            if (playerMonster.getCurrHp() <= 0) {
+                                ResultPanel resultPanel = new ResultPanel(homeGUI,
+                                        String.format("You are defeated by %s... noob", wildMonster.getName()));
+                                homeGUI.addPanel("result", resultPanel);
+                                homeGUI.setPanel("result");
+                                return;
+                            }
+
+                            String playerHp = String.format("%s HP: %.0f/%.0f",
+                                    playerMonster.getName(),
+                                    playerMonster.getCurrHp(),
+                                    playerMonster.getMaxHp());
+                            playerHpLabel.setText(playerHp);
+
+                            label.setText(String.format("Wild monster attacks with %s", action));
+                            label.setForeground(Color.RED);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         };
     }
