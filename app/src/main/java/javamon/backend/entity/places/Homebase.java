@@ -7,13 +7,10 @@ import javamon.backend.entity.Element;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.Player;
 import javamon.backend.entity.items.Item;
-import javamon.backend.exceptions.CannotEvolveException;
-import javamon.backend.exceptions.CannotHealException;
-import javamon.backend.exceptions.FullInventoryException;
-import javamon.backend.exceptions.NoItemException;
-import javamon.backend.exceptions.NoMonsterException;
-import javamon.backend.exceptions.NotEnoughExpException;
-import javamon.backend.exceptions.NotEnoughGoldException;
+import javamon.backend.exceptions.GameException;
+import javamon.backend.exceptions.IllegalArgumentException;
+import javamon.backend.exceptions.NoArgumentException;
+import javamon.backend.exceptions.TooMuchArgumentException;
 
 public class Homebase extends Place {
     private Player player;
@@ -119,7 +116,7 @@ public class Homebase extends Place {
         System.out.println("Successfully restored monsters");
     }
 
-    public void levelUp(Monster monster) throws NotEnoughExpException {
+    public void levelUp(Monster monster) throws GameException {
         int currLevel = monster.getLevel();
         double monsterExp = monster.getExp();
 
@@ -128,14 +125,14 @@ public class Homebase extends Place {
 
         // Cek apakah monster punya cukup exp untuk level up
         if (monsterExp < neededXp) {
-            throw new NotEnoughExpException();
+            throw new IllegalArgumentException("monster exp");
         }
 
         monster.levelUp(neededXp);
         System.out.printf("%s leveled up\n", monster);
     }
 
-    public void restoreHp(Monster monster) throws CannotHealException, NotEnoughGoldException {
+    public void restoreHp(Monster monster) throws GameException {
         double currHp = monster.getCurrHp();
         double maxHp = monster.getMaxHp();
 
@@ -146,12 +143,12 @@ public class Homebase extends Place {
 
         // Hp monster penuh
         if (currHp == maxHp) {
-            throw new CannotHealException();
+            throw new TooMuchArgumentException("hp monster");
         }
 
         // Cek apakah player punya cukup gold
         if (playerGold < price) {
-            throw new NotEnoughGoldException();
+            throw new IllegalArgumentException("player gold");
         }
 
         // Kurangi gold player
@@ -163,11 +160,11 @@ public class Homebase extends Place {
         System.out.printf("%s's hp restored\n", monster);
     }
 
-    public void evolve(Monster monster, Element element) throws CannotEvolveException {
+    public void evolve(Monster monster, Element element) throws GameException {
         int level = monster.getLevel();
         boolean[] evolved = monster.getEvolved();
         if (evolved[level]) {
-            throw new CannotEvolveException();
+            throw new IllegalArgumentException("level");
         }
 
         Element[] elements = new Element[] { Element.Api, Element.Angin, Element.Air, Element.Es, Element.Tanah };
@@ -222,7 +219,7 @@ public class Homebase extends Place {
 
         // Cek apakah monster bisa di-evolve ke element yang diinginkan
         if (!canEvolve[currIndex][elementIndex]) {
-            throw new CannotEvolveException();
+            throw new IllegalArgumentException("element");
         }
 
         // monster.setName(""); // TODO: set the name of the monster
@@ -232,7 +229,7 @@ public class Homebase extends Place {
     }
 
     public void buyItem(Map<Item, Integer> items)
-            throws FullInventoryException, NotEnoughGoldException, NoItemException {
+            throws GameException {
         double playerGold = player.getGold();
 
         int cnt = 0;
@@ -242,7 +239,7 @@ public class Homebase extends Place {
 
         // Cek apakah ada item yang dibeli
         if (cnt == 0) {
-            throw new NoItemException();
+            throw new NoArgumentException("item");
         }
 
         int playerItem = 0;
@@ -253,7 +250,7 @@ public class Homebase extends Place {
 
         // Cek apakah inventory player penuh
         if (playerItem + cnt > 10)
-            throw new FullInventoryException();
+            throw new TooMuchArgumentException("item");
 
         int itemPrice = 0;
         for (Item item : items.keySet()) {
@@ -262,7 +259,7 @@ public class Homebase extends Place {
 
         // Cek apakah player punya cukup gold
         if (playerGold < itemPrice)
-            throw new NotEnoughGoldException();
+            throw new IllegalArgumentException("gold");
 
         // Tambah item ke inventory player
         Item[] playerItems = player.getItems();
@@ -285,7 +282,7 @@ public class Homebase extends Place {
         System.out.printf("Player gold: %f\n", playerGold - itemPrice);
     }
     
-    public void goToDungeon(Dungeon dungeon) throws NoMonsterException {
+    public void goToDungeon(Dungeon dungeon) throws GameException {
         System.out.println("Going to Dungeon " + dungeon.getName() + "...");
     
         Javamon.setPOSITION(dungeon);

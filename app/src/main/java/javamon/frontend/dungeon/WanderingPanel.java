@@ -5,7 +5,7 @@ import javax.swing.*;
 
 import javamon.backend.Javamon;
 import javamon.backend.entity.places.Place;
-import javamon.backend.exceptions.NoMonsterException;
+import javamon.backend.exceptions.GameException;
 import javamon.backend.entity.BattleArena;
 import javamon.backend.entity.Monster;
 import javamon.backend.entity.places.Dungeon;
@@ -52,7 +52,7 @@ public class WanderingPanel extends Panel {
                     homeGUI.setPanel("battleArena");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } catch (NoMonsterException e) {
+                } catch (GameException e) {
                     ResultPanel resultPanel = new ResultPanel(homeGUI, "No monster found, exiting dungeon...");
                     homeGUI.addPanel("result", resultPanel);
                     homeGUI.setPanel("result");

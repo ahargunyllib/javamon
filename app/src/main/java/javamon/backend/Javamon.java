@@ -17,7 +17,8 @@ import javamon.backend.entity.items.potions.HealthPotion;
 import javamon.backend.entity.places.Dungeon;
 import javamon.backend.entity.places.Homebase;
 import javamon.backend.entity.places.Place;
-import javamon.backend.exceptions.NoSaveGameException;
+import javamon.backend.exceptions.GameException;
+import javamon.backend.exceptions.NoArgumentException;
 
 public class Javamon {
     public static Place POSITION;
@@ -40,11 +41,11 @@ public class Javamon {
         play();
     }
 
-    public static void loadGame() throws NoSaveGameException {
+    public static void loadGame() throws GameException {
         File directory = new File("saves");
         File[] files = directory.listFiles();
         if (files == null)
-            throw new NoSaveGameException();
+            throw new NoArgumentException("save game");
 
         try {
             FileReader file = new FileReader(files[files.length - 1]);

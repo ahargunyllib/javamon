@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.swing.*;
 
 import javamon.backend.Javamon;
-import javamon.backend.exceptions.NoSaveGameException;
+import javamon.backend.exceptions.GameException;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Label;
@@ -68,7 +68,7 @@ public class WelcomePanel extends Panel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Javamon.loadGame();
-                } catch (NoSaveGameException e1) {
+                } catch (GameException e1) {
                     JOptionPane.showMessageDialog(null, "No save game found!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 

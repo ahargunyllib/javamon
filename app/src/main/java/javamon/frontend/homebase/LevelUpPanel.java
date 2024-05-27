@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import javamon.backend.Javamon;
 import javamon.backend.entity.Monster;
-import javamon.backend.exceptions.NotEnoughExpException;
+import javamon.backend.exceptions.GameException;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Button;
@@ -85,7 +85,7 @@ public class LevelUpPanel extends Panel {
 
                 try {
                     Javamon.getHOMEBASE().levelUp(monster);
-                } catch (NotEnoughExpException err) {
+                } catch (GameException err) {
                     JOptionPane.showMessageDialog(homeGUI.getFrame(), err.getMessage(), "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
