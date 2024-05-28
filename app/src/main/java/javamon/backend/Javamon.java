@@ -287,7 +287,15 @@ public class Javamon {
                 price = 50;
             }
 
-            ITEMS[i - 1] = new HealthPotion(value, price, listNama[i - 1]);
+            Item item = null;
+            String nama = listNama[i - 1];
+            if (nama.contains("Health")) {
+                item = new HealthPotion(value, price, nama);
+            } else if (nama.contains("Elemental")) {
+                item = new ElementalPotion(value, price, nama);
+            }
+
+            ITEMS[i - 1] = item;
             System.out.println(ITEMS[i - 1].getName() + " created.");
         }
         System.out.println("Items registered.");
