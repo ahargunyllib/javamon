@@ -37,7 +37,7 @@ public class HomebasePanel extends Panel {
         Row centerRow = new Row();
         Button shopBtn = new Button("Shop", "Inter-Bold", 20f, Colors.WELCOME, Color.WHITE, goToShop(homeGUI));
         Button dungeonBtn = new Button("Dungeon", "Inter-Bold", 20f, Colors.WELCOME, Color.WHITE,
-                goToDungeon(homeGUI));
+                goToDungeon(homeGUI, this));
 
         shopBtn.setSize(150, 50);
         shopBtn.setPreferredSize(new Dimension(150, 50));
@@ -146,10 +146,17 @@ public class HomebasePanel extends Panel {
         return monsterPanel;
     }
 
-    private ActionListener goToDungeon(HomeGUI homeGUI) {
+    private ActionListener goToDungeon(HomeGUI homeGUI, Panel panel) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if (Javamon.getPlayerMonsters().length > 3) {
+                    JOptionPane.showMessageDialog(panel, "You can only bring maximum 3 monsters to the dungeon", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 MapPanel mapPanel = new MapPanel(homeGUI);
                 homeGUI.addPanel("map", mapPanel);
                 homeGUI.setPanel("map");

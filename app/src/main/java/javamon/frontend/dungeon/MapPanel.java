@@ -62,7 +62,7 @@ public class MapPanel extends Panel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                homeGUI.setPanel("welcome");
+                homeGUI.setPanel("homebase");
             }
         };
     }

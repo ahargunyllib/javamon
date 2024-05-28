@@ -168,6 +168,8 @@ public class BattleArenaPanel extends Panel {
                             Monster wildMonster = battleArena.getWildMonster();
 
                             if (playerMonster.getCurrHp() <= 0) {
+                                playerMonster.setCurrHp(0);
+                                
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
                                         String.format("You are defeated by %s... noob", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);
@@ -213,6 +215,8 @@ public class BattleArenaPanel extends Panel {
                                 Monster wildMonster = battleArena.getWildMonster();
     
                                 if (playerMonster.getCurrHp() <= 0) {
+                                    playerMonster.setCurrHp(0);
+
                                     ResultPanel resultPanel = new ResultPanel(homeGUI,
                                             String.format("You are defeated by %s... noob", wildMonster.getName()));
                                     homeGUI.addPanel("result", resultPanel);
@@ -266,6 +270,8 @@ public class BattleArenaPanel extends Panel {
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
                         wildMonster.getCurrHp(), wildMonster.getMaxHp());
                 if (wildMonster.getCurrHp() <= 0) {
+                    wildMonster.setCurrHp(0);
+
                     // Add gold to player
                     Monster playerMonster = battleArena.getPlayerMonster();
                     double gold = playerMonster.getGold();
@@ -298,6 +304,7 @@ public class BattleArenaPanel extends Panel {
                             Monster playerMonster = battleArena.getPlayerMonster();
 
                             if (playerMonster.getCurrHp() <= 0) {
+                                playerMonster.setCurrHp(0);
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
                                         String.format("You are defeated by %s... noob", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);
@@ -337,6 +344,8 @@ public class BattleArenaPanel extends Panel {
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
                         wildMonster.getCurrHp(), wildMonster.getMaxHp());
                 if (wildMonster.getCurrHp() <= 0) {
+                    wildMonster.setCurrHp(0);
+
                     // Add gold to player
                     Monster playerMonster = battleArena.getPlayerMonster();
                     double gold = playerMonster.getGold();
@@ -369,6 +378,7 @@ public class BattleArenaPanel extends Panel {
                             Monster playerMonster = battleArena.getPlayerMonster();
 
                             if (playerMonster.getCurrHp() <= 0) {
+                                playerMonster.setCurrHp(0);
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
                                         String.format("You are defeated by %s... noob", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);
@@ -406,6 +416,7 @@ public class BattleArenaPanel extends Panel {
                 String wildHp = String.format("%s HP: %.0f/%.0f", wildMonster.getName(),
                         wildMonster.getCurrHp(), wildMonster.getMaxHp());
                 if (wildMonster.getCurrHp() <= 0) {
+                    wildMonster.setCurrHp(0);
                     // Add gold to player
                     Monster playerMonster = battleArena.getPlayerMonster();
                     double gold = playerMonster.getGold();
@@ -438,6 +449,7 @@ public class BattleArenaPanel extends Panel {
                             Monster playerMonster = battleArena.getPlayerMonster();
 
                             if (playerMonster.getCurrHp() <= 0) {
+                                playerMonster.setCurrHp(0);
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
                                         String.format("You are defeated by %s... noob", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);

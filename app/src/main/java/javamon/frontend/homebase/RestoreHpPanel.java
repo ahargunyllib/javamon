@@ -157,7 +157,7 @@ public class RestoreHpPanel extends Panel {
                     return;
                 }
 
-                JOptionPane.showMessageDialog(homeGUI.getFrame(), "Monster evolved!", "Success",
+                JOptionPane.showMessageDialog(homeGUI.getFrame(), "Monster healed up!", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
 
                 HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
