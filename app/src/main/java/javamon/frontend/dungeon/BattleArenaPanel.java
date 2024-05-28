@@ -49,7 +49,8 @@ public class BattleArenaPanel extends Panel {
 
         ImageIcon playerMonsterIcon = new ImageIcon(
                 String.format("assets/images/pokemon/%s-Transparant.png", playerMonster.getName()));
-        ImageIcon wildMonsterIcon = new ImageIcon(String.format("assets/images/pokemon/%s-Transparant.png", wildMonster.getName()));
+        ImageIcon wildMonsterIcon = new ImageIcon(
+                String.format("assets/images/pokemon/%s-Transparant.png", wildMonster.getName()));
         int newWidth = 256;
         int newHeight = 256;
         Image scaledPlayerMonsterImage = playerMonsterIcon.getImage().getScaledInstance(newWidth, newHeight,
@@ -134,7 +135,8 @@ public class BattleArenaPanel extends Panel {
         add(playerMonsterColumn);
     }
 
-    private ActionListener useItem(BattleArena battleArena, JComboBox<String> itemsComboBox, Label label, Label playerHpLabel) {
+    private ActionListener useItem(BattleArena battleArena, JComboBox<String> itemsComboBox, Label label,
+            Label playerHpLabel) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,9 +171,9 @@ public class BattleArenaPanel extends Panel {
 
                             if (playerMonster.getCurrHp() <= 0) {
                                 playerMonster.setCurrHp(0);
-                                
+
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
-                                        String.format("You are defeated by %s... noob", wildMonster.getName()));
+                                        String.format("You are defeated by %s... skill issue", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);
                                 homeGUI.setPanel("result");
                                 return;
@@ -194,7 +196,7 @@ public class BattleArenaPanel extends Panel {
         };
     }
 
-    private ActionListener run(BattleArena battleArena, Label label,Label playerHpLabel) {
+    private ActionListener run(BattleArena battleArena, Label label, Label playerHpLabel) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -208,28 +210,29 @@ public class BattleArenaPanel extends Panel {
                         public void run() {
                             try {
                                 Thread.sleep(3000);
-    
+
                                 String action = battleArena.wildMonsterTurn();
-    
+
                                 Monster playerMonster = battleArena.getPlayerMonster();
                                 Monster wildMonster = battleArena.getWildMonster();
-    
+
                                 if (playerMonster.getCurrHp() <= 0) {
                                     playerMonster.setCurrHp(0);
 
                                     ResultPanel resultPanel = new ResultPanel(homeGUI,
-                                            String.format("You are defeated by %s... noob", wildMonster.getName()));
+                                            String.format("You are defeated by %s... skill issue",
+                                                    wildMonster.getName()));
                                     homeGUI.addPanel("result", resultPanel);
                                     homeGUI.setPanel("result");
                                     return;
                                 }
-    
+
                                 String playerHp = String.format("%s HP: %.0f/%.0f",
                                         playerMonster.getName(),
                                         playerMonster.getCurrHp(),
                                         playerMonster.getMaxHp());
                                 playerHpLabel.setText(playerHp);
-    
+
                                 label.setText(String.format("Wild monster attacks with %s", action));
                                 label.setForeground(Color.RED);
                             } catch (InterruptedException e) {
@@ -260,6 +263,42 @@ public class BattleArenaPanel extends Panel {
                 if (!success) {
                     label.setText("You miss the special attack.");
                     label.setForeground(Color.WHITE);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(3000);
+
+                                String action = battleArena.wildMonsterTurn();
+
+                                Monster playerMonster = battleArena.getPlayerMonster();
+                                Monster wildMonster = battleArena.getWildMonster();
+
+                                if (playerMonster.getCurrHp() <= 0) {
+                                    playerMonster.setCurrHp(0);
+                                    ResultPanel resultPanel = new ResultPanel(homeGUI,
+                                            String.format("You are defeated by %s... skill issue",
+                                                    wildMonster.getName()));
+                                    homeGUI.addPanel("result", resultPanel);
+                                    homeGUI.setPanel("result");
+                                    return;
+                                }
+
+                                String playerHp = String.format("%s HP: %.0f/%.0f",
+                                        playerMonster.getName(),
+                                        playerMonster.getCurrHp(),
+                                        playerMonster.getMaxHp());
+                                playerHpLabel.setText(playerHp);
+
+                                label.setText(String.format("Wild monster attacks with %s", action));
+                                label.setForeground(Color.RED);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+
                     return;
                 }
 
@@ -306,7 +345,7 @@ public class BattleArenaPanel extends Panel {
                             if (playerMonster.getCurrHp() <= 0) {
                                 playerMonster.setCurrHp(0);
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
-                                        String.format("You are defeated by %s... noob", wildMonster.getName()));
+                                        String.format("You are defeated by %s... skill issue", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);
                                 homeGUI.setPanel("result");
                                 return;
@@ -327,6 +366,7 @@ public class BattleArenaPanel extends Panel {
                 }).start();
 
             }
+
         };
     }
 
@@ -380,7 +420,7 @@ public class BattleArenaPanel extends Panel {
                             if (playerMonster.getCurrHp() <= 0) {
                                 playerMonster.setCurrHp(0);
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
-                                        String.format("You are defeated by %s... noob", wildMonster.getName()));
+                                        String.format("You are defeated by %s... skill issue", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);
                                 homeGUI.setPanel("result");
                                 return;
@@ -451,7 +491,7 @@ public class BattleArenaPanel extends Panel {
                             if (playerMonster.getCurrHp() <= 0) {
                                 playerMonster.setCurrHp(0);
                                 ResultPanel resultPanel = new ResultPanel(homeGUI,
-                                        String.format("You are defeated by %s... noob", wildMonster.getName()));
+                                        String.format("You are defeated by %s... skill issue", wildMonster.getName()));
                                 homeGUI.addPanel("result", resultPanel);
                                 homeGUI.setPanel("result");
                                 return;

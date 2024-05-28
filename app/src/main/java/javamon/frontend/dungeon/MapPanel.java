@@ -9,6 +9,7 @@ import javamon.backend.entity.places.Dungeon;
 import javamon.frontend.HomeGUI;
 import javamon.frontend.Panel;
 import javamon.frontend.components.Button;
+import javamon.frontend.homebase.HomebasePanel;
 
 public class MapPanel extends Panel {
     public MapPanel(HomeGUI homeGUI) {
@@ -62,6 +63,8 @@ public class MapPanel extends Panel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HomebasePanel homebasePanel = new HomebasePanel(homeGUI);
+                homeGUI.addPanel("homebase", homebasePanel);
                 homeGUI.setPanel("homebase");
             }
         };
